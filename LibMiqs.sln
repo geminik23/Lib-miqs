@@ -5,7 +5,29 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs", "miqs\miqs.vcxitems", "{45D41ACC-2C3C-43D2-BC10-02AA73FFC7C7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs_test", "miqs_test\miqs_test.vcxproj", "{9A5683BA-E1FF-4204-AC69-868DCFFF2239}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		miqs\miqs.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
+		miqs\miqs.vcxitems*{9a5683ba-e1ff-4204-ac69-868dcfff2239}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Debug|x64.ActiveCfg = Debug|x64
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Debug|x64.Build.0 = Debug|x64
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Debug|x86.ActiveCfg = Debug|Win32
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Debug|x86.Build.0 = Debug|Win32
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x64.ActiveCfg = Release|x64
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x64.Build.0 = Release|x64
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x86.ActiveCfg = Release|Win32
+		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
