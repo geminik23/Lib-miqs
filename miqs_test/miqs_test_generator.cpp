@@ -4,20 +4,19 @@
 using namespace miqs_test;
 using namespace miqs;
 
-void miqs_test::generator::initialize()
+miqs_test::generator::generator()
 {
-	get_data()->phasor.set_frequency(440.0);
-	get_data()->phasor.set_samplerate(get_info().samplerate);
-	get_data()->phasor.update();
+	this->phasor.set_frequency(440.0);
+	this->phasor.set_samplerate(get_info().samplerate);
+	this->phasor.update();
 }
 
-void miqs_test::generator::process(sample_t * samples, size_t length)
+void miqs_test::generator::process(sample_t *, sample_t * out, size_t length)
 {
-	auto * data = this->get_data();
 	//audio_info& info = this->get_info();
-	auto& phase = data->phasor;
+	auto& phase = this->phasor;
 
-	miqs::array_accessor<sample_t> arr{ samples, length };
+	miqs::array_accessor<sample_t> arr{ out, length };
 
 	miqs::generator<miqs::sine_wave, miqs::phasor> osc{phase};
 	std::generate(std::begin(arr), std::end(arr), osc);

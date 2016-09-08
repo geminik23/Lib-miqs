@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}</ItemsProjectGuid>
+    <ItemsProjectGuid>{ED6B3CCD-10D6-48FC-8C75-7D7BE7FE2948}</ItemsProjectGuid>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -18,9 +18,29 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_basictype.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_basic_operators.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_array_accessor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_circular_block.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_circular_adaptor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_circular_iterator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_sample_wrapper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_delay_basic.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_delay_fraction.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_1st_allpass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_2nd_allpass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_all_pole.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_all_zero.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_based_1st_allpass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_based_2nd_allpass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_basic.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_canonical.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_functions.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_combines.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_cascade_filter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_filter_coeff_allpass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_filter_coeff_canonical.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_gen_generator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_headers.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_implements.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_interpolation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_math.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_phasors.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_trans_fft.h" />

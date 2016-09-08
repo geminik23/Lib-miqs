@@ -8,6 +8,9 @@ namespace miqs
 	struct phasor_index;
 	struct phasor_bounded_index;
 
+
+
+
 	// phasor
 	struct phasor
 	{
@@ -15,9 +18,12 @@ namespace miqs
 		phasor(double freq, uint32_t sr):frequency{ freq }, samplerate{ sr } { update(); reset(); }
 
 
-		void set_frequency(double freq) { this->frequency = freq; }
-		void set_samplerate(uint32_t sr) { this->samplerate = sr; }
+		void set_frequency(double freq) noexcept{ this->frequency = freq;  update();}
+		void set_samplerate(uint32_t sr) noexcept{ this->samplerate = sr;  update();}
+		void set(double freq, uint32_t sr) noexcept{ this->frequency = freq; this->samplerate = sr; update(); }
+		
 		double get_phase() const noexcept { return phase; }
+		void set_phase(double p) noexcept { this->phase = p; }
 
 		void reset() noexcept { phase = 0.0; }
 		void update() noexcept { step = miqs::PI * 2 * frequency / samplerate; }
@@ -37,13 +43,41 @@ namespace miqs
 		uint32_t samplerate{};
 	};
 
+	// phasor using normalized frequency
+	struct phasor_norm_freq
+	{
+		phasor_norm_freq() = default;
+		phasor_norm_freq(double norm_freq):norm_frequency{ norm_freq }{ update(); reset(); }
+
+		void set(double norm_freq) noexcept{ this->norm_frequency = norm_freq; update(); }
+		
+		double get_phase() const noexcept { return phase; }
+		void set_phase(double p) noexcept { this->phase = p; }
+
+		void reset() noexcept { phase = 0.0; }
+		void update() noexcept { step = miqs::PI *norm_frequency; }
+		void next() noexcept { phase += step; }
+
+		double operator()() noexcept
+		{
+			auto p = get_phase();
+			next();
+			return p;
+		}
+
+		double phase{};
+		double step{};
+
+		double norm_frequency{};
+	};
+
 	// phasor index
 	struct phasor_index
 	{
 		phasor_index() = default;
-		phasor_index(size_t index):index{ index } {}
+		phasor_index(size_t idx):index{ idx } {}
 
-		void set_index(size_t index) noexcept { this->index = index; }
+		void set_index(size_t idx) noexcept { this->index = idx; }
 		size_t get_index() const noexcept { return index; }
 
 		void reset() noexcept { index = 0; }
@@ -62,15 +96,15 @@ namespace miqs
 	struct phasor_bounded_index
 	{
 		phasor_bounded_index() = default;
-		phasor_bounded_index(size_t bound, size_t index = 0):bound_index{ bound }, index{ index } {}
+		phasor_bounded_index(size_t bound, size_t idx = 0):bound_index{ bound }, index{ idx } {}
 
 		void set_bound(size_t bound) noexcept { this->bound_index = bound; }
-		void set_index(size_t index) noexcept { this->index = index; }
+		void set_index(size_t idx) noexcept { this->index = idx; }
 		size_t get_index() const noexcept { return index; }
 		size_t get_bound() const noexcept { return bound_index; }
 
 		void reset() noexcept { index = 0; }
-		void update() noexcept { index %= bound_index; }
+		void update() noexcept { if(index > bound_index) index %= bound_index; }
 		void next() noexcept { ++index; update(); }
 
 		size_t operator()() noexcept

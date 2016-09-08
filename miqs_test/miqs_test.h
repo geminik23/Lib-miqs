@@ -1,15 +1,19 @@
 #pragma once
 #include <miqs.h>
 
+#include <iomanip>
 
 #define q_interface struct
+
+
 
 using namespace miqs;
 namespace miqs_test
 {
 
 	q_interface iprocessor{
-		virtual void process(sample_t * samples, size_t length) = 0;
+		virtual void process(sample_t *in, sample_t * samples, size_t length) = 0;
+		virtual void set_info(miqs::uint32_t size, miqs::uint32_t samplerate) = 0;
 	};
 	q_interface idata{};
 
@@ -26,25 +30,21 @@ namespace miqs_test
 	};
 
 
-#define PROCESSOR_DATA(NAME, TYPES) \
-class NAME##_data : public idata{\
+#define PROCESSOR(NAME, TYPES) \
+class NAME : public iprocessor{\
 public:\
+	NAME();\
+	virtual void set_info(miqs::uint32_t size=512, miqs::uint32_t samplerate=48000){ _info.vector_size = size;_info.samplerate = samplerate; }\
+	audio_info& get_info(){return _info;}\
+	virtual void process(sample_t* in, sample_t * out, size_t length);\
+private:\
+	audio_info _info;\
 	TYPES\
 }
 
-#define PROCESSOR(NAME) \
-class NAME : public iprocessor{\
-public:\
-	NAME(miqs::uint32_t size=512, miqs::uint32_t samplerate=48000){_info.vector_size = size;_info.samplerate = samplerate;_data = std::make_unique<NAME##_data>();this->initialize();}\
-	void initialize();\
-	audio_info& get_info(){return _info;}\
-	virtual void process(sample_t * samples, size_t length);\
-	NAME##_data* get_data(){\
-		return reinterpret_cast<NAME##_data*>(_data.get());\
-	}\
-private:\
-	std::unique_ptr<idata> _data;\
-	audio_info _info;\
+#define ANALYSIS_DATA(NAME, TYPE)\
+struct NAME##_data: public idata{\
+TYPE\
 }
 
 
@@ -61,53 +61,146 @@ private:\
 
 
 
-	//TESTs
+	// TESTs
 	// generate sinewave basic.
-	PROCESSOR_DATA(generator, miqs::phasor phasor;);
-	PROCESSOR(generator);
+	PROCESSOR(generator, miqs::phasor phasor;);
 
-	//// basic operators
-	PROCESSOR_DATA(basic_ops, miqs::phasor phasor;);
-	PROCESSOR(basic_ops);
+	// basic operators
+	PROCESSOR(basic_ops, miqs::phasor phasor;);
 
 
-	//// filter allpole
-	//PROCESSOR_DATA(allpole_filter, );
-	//PROCESSOR(allpole_filter);
-	//// filter allzero
-	//PROCESSOR_DATA(allzero_filter, );
-	//PROCESSOR(allzero_filter);
 
+	
+	/* delay and comb based effects */
+	// vibrato
+	PROCESSOR(delay_effect_vibrato,
+			  double width;
+			  miqs::phasor phase;
+			  miqs::phasor lfphase;
+			  miqs::delay buffer;);
 
-	//// ifft{fft{sin}}
-	//PROCESSOR_DATA(simple_fft, std::unique_ptr<miqs::generator<sine_wave>> osc;);
-	//PROCESSOR(simple_fft);
+	// flanger, chorus, slapback, echo   // p97
+	PROCESSOR(comb_effects, );
 
-	//// ifft{fft{sin}} : calc magnitude and phase
-	//PROCESSOR_DATA(simple_fft2, std::unique_ptr<miqs::generator<sine_wave>> osc;);
-	//PROCESSOR(simple_fft2);
+	// natural sounding comb filter
+	PROCESSOR(natural_comb_filter, );
 
 
 
 
 
+
+
+
+	
 	//
 	// Analysis Processor
-
+	//
 	// apply window
-	PROCESSOR_DATA(ana_apply_window,);
+	ANALYSIS_DATA(ana_apply_window,);
 	ANALYSIS_PROCESSOR(ana_apply_window);
 
 	// tranform_fft
-	PROCESSOR_DATA(ana_fft, );
+	ANALYSIS_DATA(ana_fft, );
 	ANALYSIS_PROCESSOR(ana_fft);
 
+	// Spectrogram //TODO  check sound
+	ANALYSIS_DATA(ana_spectrogram, );
+	ANALYSIS_PROCESSOR(ana_spectrogram);
+
+
+	/** TODO
+		FILTERS
+	**/
+
+	// Basic Filter 
+	ANALYSIS_DATA(ana_basicfilter, );
+	ANALYSIS_PROCESSOR(ana_basicfilter);
+
+	// Allpass Filter 
+	ANALYSIS_DATA(ana_allpassfilter, );
+	ANALYSIS_PROCESSOR(ana_allpassfilter);
+
+	// Biquad Filter (iir_df2) direct-form 2.
+	ANALYSIS_DATA(ana_biquadfilter, );
+	ANALYSIS_PROCESSOR(ana_biquadfilter);
+
+	// Delay and fraction delay
+	ANALYSIS_DATA(ana_delay, );
+	ANALYSIS_PROCESSOR(ana_delay); 
+
+	// Comb Filter
+	ANALYSIS_DATA(ana_comb_filter, );
+	ANALYSIS_PROCESSOR(ana_comb_filter);
+
+
+	/** TODO
+		MODULATIONS [DAFX p101]
+	**/
+
+
+	/** TODO
+		SPATIAL EFFECTS [DAFX p156]
+	**/
+
+
+
+	/* TODO
+	Time Segment p201 
+	1. time stretching SOLA, PSOLA, 
+	2. pitch shifting
+	3. 
+	*/
+
+	/** TODO
+		Time Shuffling and granulation [DAFX p226]
+
+	**/
+
+
+	/** TODO
+	Source-Filter processing [DAFX p294]
+	1. LPC
+	2. Cepstrum
+	3. Cross Synthesis ? 
+	4. Formant changing
+	5. Spectrum interpolation
+	**/
+
+	/**
+		Adaptive digital audio	effects [DAFX 336]
+	** PITCH
+	** GRANULAR
+	**/
+
+	/**??
+	SPECTRAL PROCESSING [DAFX 407]
+	**/
+
+
+	/**??
+	 Time-Freq Warping [DAFX 460]
+	**/
+
+	
+
+
+
 	// pitch using zerocross
-	//PROCESSOR_DATA(pitch_estimation1, double pitch;);
-	//ANALYSIS_PROCESSOR(pitch_estimation1);
+	ANALYSIS_DATA(pitch_estimation1,);
+	ANALYSIS_PROCESSOR(pitch_estimation1);
+
+	// pitch using autocorrelation
+	ANALYSIS_DATA(pitch_estimation2,);
+	ANALYSIS_PROCESSOR(pitch_estimation2);
 
 
 
+
+
+	// pitch using autocorrelation
+	ANALYSIS_DATA(implement_test, );
+	ANALYSIS_PROCESSOR(implement_test);
 
 }
 
@@ -117,12 +210,11 @@ private:\
 //#include "miqs_test.h"
 //using namespace miqs_test;
 //using namespace miqs;
-//#define miqs_TEST_OBJ_NAME 
-//void miqs_TEST_OBJ_NAME::initialize() {
+//miqs_TEST_OBJ_NAME::miqs_TEST_OBJ_NAME() {
 //}
 //
 //
-//void miqs_TEST_OBJ_NAME::process(sample_t * samples, size_t length) {
+//void miqs_TEST_OBJ_NAME::process(sample_t * in, sample_t * out, size_t length) {
 //
 //}
 //#undef miqs_TEST_OBJ_NAME

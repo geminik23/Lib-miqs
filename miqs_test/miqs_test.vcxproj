@@ -71,16 +71,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\miqs_soundfile\;$(ProjectDir)\..\miqs\include;$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\miqs_soundfile\;$(ProjectDir)\..\miqs\include;$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\miqs_soundfile\;$(ProjectDir)\..\miqs\include;$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\miqs_soundfile\;$(ProjectDir)\..\miqs\include;$(SolutionDir)\miqs\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -147,12 +147,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="miqs_test_ana_applywindow.cpp" />
+    <ClCompile Include="miqs_test_ana_basicfilter.cpp" />
+    <ClCompile Include="miqs_test_ana_biquadfilter.cpp" />
+    <ClCompile Include="miqs_test_ana_delay.cpp" />
     <ClCompile Include="miqs_test_ana_fft.cpp" />
+    <ClCompile Include="miqs_test_ana_implement_test.cpp" />
+    <ClCompile Include="miqs_test_ana_pitchestimation1.cpp" />
+    <ClCompile Include="miqs_test_ana_pitchestimation2.cpp" />
+    <ClCompile Include="miqs_test_ana_spectrogram.cpp" />
     <ClCompile Include="miqs_test_basicops.cpp" />
+    <ClCompile Include="miqs_test_comb_effects.cpp" />
+    <ClCompile Include="miqs_test_delay_effect_vibrato.cpp" />
     <ClCompile Include="miqs_test_generator.cpp" />
+    <ClCompile Include="miqs_test_natural_comb_filter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="miqs_test.h" />
+    <ClInclude Include="miqs_test_ana_allpassfilter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\__VisualStudio__\Test-miqslibrary\miqs_soundfile\miqs_soundfile.vcxproj">
+      <Project>{263e9442-c4f6-40e7-82b9-0837d562ef15}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

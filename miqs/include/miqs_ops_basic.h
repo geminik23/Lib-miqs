@@ -56,4 +56,27 @@ namespace miqs
 
 		_T m_min, m_max;
 	};
+
+
+
+	template <typename _T>
+	struct op_logarithmic_amplitude_20log
+	{
+		_T operator() (const _T& v)
+		{
+			return 20 * std::log10(v);
+		}
+	};
+
+	template <typename _T>
+	struct op_logarithmic_amplitude_10log
+	{
+		_T operator() (const _T& v)
+		{
+			return 10 * std::log10(v);
+		}
+	};
+
+
+
 }

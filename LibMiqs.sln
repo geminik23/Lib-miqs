@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs", "miqs\miqs.vcxitems", "{45D41ACC-2C3C-43D2-BC10-02AA73FFC7C7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs", "miqs\miqs.vcxitems", "{ED6B3CCD-10D6-48FC-8C75-7D7BE7FE2948}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs_test", "miqs_test\miqs_test.vcxproj", "{9A5683BA-E1FF-4204-AC69-868DCFFF2239}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		miqs\miqs.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
 		miqs\miqs.vcxitems*{9a5683ba-e1ff-4204-ac69-868dcfff2239}*SharedItemsImports = 4
+		miqs\miqs.vcxitems*{ed6b3ccd-10d6-48fc-8c75-7d7be7fe2948}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

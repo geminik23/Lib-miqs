@@ -26,14 +26,16 @@ namespace miqs
 	class array_accessor
 	{
 	public:
-		typedef array_accessor<T> self_type;
 		typedef base_allocator<T> Allocator;
 		typedef typename Allocator::reference reference;
 		typedef typename Allocator::const_reference const_reference;
 		typedef typename Allocator::size_type size_type;
 		typedef typename Allocator::pointer pointer;
 		typedef typename Allocator::const_pointer const_pointer;
+		typedef typename Allocator::difference_type difference_type;
 		typedef T value_type;
+
+		typedef array_accessor<T> self_type;
 
 		class iterator
 		{
