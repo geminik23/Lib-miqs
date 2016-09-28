@@ -4,6 +4,8 @@
 namespace miqs
 {
 
+	// if idx<0 or idx>=size then return 0.0
+
 	// circular adaptor's iterator
 	template <typename ContainerType>
 	class circular_iterator
@@ -46,8 +48,8 @@ namespace miqs
 		
 
 
-		reference operator*() { if (_is_ended()) return m_cont.end_value; return m_cont[_normalized(m_idx)]; }
-		pointer operator->() { if (_is_ended()) return &m_cont.end_value; return &m_cont[_normalized(m_idx)]; }
+		reference operator*() { if (_is_before() || _is_ended()) return m_cont.end_value; return m_cont[_normalized(m_idx)]; }
+		pointer operator->() { if (_is_before() || _is_ended()) return &m_cont.end_value; return &m_cont[_normalized(m_idx)]; }
 
 		bool operator==(const self_type& rhs) { return m_idx == rhs.m_idx; }
 		bool operator!=(const self_type& rhs) { return m_idx != rhs.m_idx; }
@@ -64,6 +66,10 @@ namespace miqs
 			return m_idx >= static_cast<int>(m_cont.size());
 		}
 
+		bool _is_before()
+		{
+			return m_idx < 0;
+		}
 
 		void check_index(int dif)
 		{
@@ -114,8 +120,8 @@ namespace miqs
 
 		self_type& operator=(self_type const& other) { this->m_cont = other.m_cont; this->m_idx = other.m_idx; return *this; }
 
-		const reference operator*() { if (_is_ended()) return m_cont.end_value; return m_cont[_normalized(m_idx)]; }
-		const pointer operator->() { if (_is_ended()) return &m_cont.end_value; return &m_cont[_normalized(m_idx)]; }
+		const reference operator*() { if (_is_before()||_is_ended()) return m_cont.end_value; return m_cont[_normalized(m_idx)]; }
+		const pointer operator->() { if (_is_before() ||_is_ended()) return &m_cont.end_value; return &m_cont[_normalized(m_idx)]; }
 		bool operator==(const self_type& rhs) { return m_idx == rhs.m_idx; }
 		bool operator!=(const self_type& rhs) { return m_idx != rhs.m_idx; }
 
@@ -132,6 +138,10 @@ namespace miqs
 			return m_idx == static_cast<int>(m_cont.size());
 		}
 
+		bool _is_before()
+		{
+			return m_idx < 0;
+		}
 
 		void check_index(int dif)
 		{

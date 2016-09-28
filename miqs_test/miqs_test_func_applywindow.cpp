@@ -6,17 +6,11 @@ using namespace miqs_test;
 using namespace miqs;
 
 
-
-#define APL_TEST_OBJ_NAME ana_apply_window
-
-/* Fixed Window
-*/
-
 constexpr int Window_Length = 128;
 
 
 
-void APL_TEST_OBJ_NAME::process()
+void miqs_test::funcs::applywindow()
 {
 	//auto * data = this->get_data();
 	
@@ -35,7 +29,7 @@ void APL_TEST_OBJ_NAME::process()
 	// rectangular 
 	std::cout << "::rectangular::\n";
 	w_ph.reset();
-	miqs::generator<miqs::window::rectangular<Window_Length>, miqs::phasor_index> rec(w_ph);
+	miqs::generator<miqs::window::rectangular_f<Window_Length>, miqs::phasor_index> rec(w_ph);
 	std::transform(std::begin(signal), std::end(signal), std::begin(output), miqs::make_trans_wrapper(rec));
 	std::copy(std::begin(output), std::end(output), std::ostream_iterator<miqs::sample_t>(std::cout, " "));
 	std::cout << "\n\n";
@@ -43,7 +37,7 @@ void APL_TEST_OBJ_NAME::process()
 	// hanning
 	std::cout << "::hanning::\n";
 	w_ph.reset();
-	miqs::generator<miqs::window::hanning<Window_Length>, miqs::phasor_index> hanning(w_ph);
+	miqs::generator<miqs::window::hanning_f<Window_Length>, miqs::phasor_index> hanning(w_ph);
 	std::transform(std::begin(signal), std::end(signal), std::begin(output), miqs::make_trans_wrapper(hanning));
 	std::copy(std::begin(output), std::end(output), std::ostream_iterator<miqs::sample_t>(std::cout, " "));
 	std::cout << "\n\n";
@@ -51,7 +45,7 @@ void APL_TEST_OBJ_NAME::process()
 	// blackman
 	std::cout << "::blackman::\n";
 	w_ph.reset();
-	miqs::generator<miqs::window::blackman<Window_Length>, miqs::phasor_index> black(w_ph);
+	miqs::generator<miqs::window::blackman_f<Window_Length>, miqs::phasor_index> black(w_ph);
 	std::transform(std::begin(signal), std::end(signal), std::begin(output), miqs::make_trans_wrapper(black));
 	std::copy(std::begin(output), std::end(output), std::ostream_iterator<miqs::sample_t>(std::cout, " "));
 	std::cout << "\n\n";
@@ -59,12 +53,10 @@ void APL_TEST_OBJ_NAME::process()
 	// triangular
 	std::cout << "::triangular::\n";
 	w_ph.reset();
-	miqs::generator<miqs::window::triangular<Window_Length>, miqs::phasor_index> tri(w_ph);
+	miqs::generator<miqs::window::triangular_f<Window_Length>, miqs::phasor_index> tri(w_ph);
 	std::transform(std::begin(signal), std::end(signal), std::begin(output), miqs::make_trans_wrapper(tri));
 	std::copy(std::begin(output), std::end(output), std::ostream_iterator<miqs::sample_t>(std::cout, " "));
 	std::cout << "\n\n";
 	
 }
 
-
-#undef APL_TEST_OBJ_NAME

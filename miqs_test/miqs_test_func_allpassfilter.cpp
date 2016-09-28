@@ -2,9 +2,8 @@
 #include "miqs_test.h"
 using namespace miqs_test;
 using namespace miqs;
-#define miqs_TEST_OBJ_NAME ana_allpassfilter
 
-void miqs_TEST_OBJ_NAME::process()
+void miqs_test::funcs::allpassfilter()
 {
 	std::vector<sample_t> buffer(2,0.0);
 
@@ -51,5 +50,3 @@ void miqs_TEST_OBJ_NAME::process()
 
 
 }
-
-#undef miqs_TEST_OBJ_NAME

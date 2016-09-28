@@ -4,9 +4,6 @@
     <Filter Include="include">
       <UniqueIdentifier>{ad71d57e-98f0-496b-b1d5-efa7a29eb4be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\filters">
-      <UniqueIdentifier>{2f72ec4f-81cb-4976-b938-fdd8fdb4283d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\generators">
       <UniqueIdentifier>{953cc77e-ff92-4ffc-9d36-df8b2575feb1}</UniqueIdentifier>
     </Filter>
@@ -22,12 +19,24 @@
     <Filter Include="include\delay">
       <UniqueIdentifier>{4f050f7d-6477-428b-9bbb-f0532199fe3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\operators">
+      <UniqueIdentifier>{379e1c06-add7-4020-ae88-abee111454c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\iterators">
+      <UniqueIdentifier>{108f9828-12a0-4f6b-af29-69a935a62615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\analysis">
+      <UniqueIdentifier>{f1169ca3-9455-4574-aef1-48a2e7259480}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\filters">
+      <UniqueIdentifier>{2f72ec4f-81cb-4976-b938-fdd8fdb4283d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{6a612ebc-0ce3-43f9-a2e7-4b8ad7676be5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_headers.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_implements.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_math.h">
@@ -43,9 +52,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_basic_operators.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_basictype.h">
@@ -123,5 +129,76 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_circular_iterator.h">
       <Filter>include\containers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_gen_wavetable.h">
+      <Filter>include\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_ops_basic.h">
+      <Filter>include\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_ops_bind.h">
+      <Filter>include\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_fir_comb.h">
+      <Filter>include\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_iir_comb.h">
+      <Filter>include\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_filter_universal_comb.h">
+      <Filter>include\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_delay_dynamic.h">
+      <Filter>include\delay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_delay_fixed.h">
+      <Filter>include\delay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_panning.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_iter_generate.h">
+      <Filter>include\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_ana_lpc.h">
+      <Filter>include\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_xcorrelation.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_levinson_durbin_method.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_schur_recursion.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_cont_mutlichannel_array_accessor.h">
+      <Filter>include\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_wrap_trans_func.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_bind_func2.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_cascades.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_fast_convolution.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_envelopes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_fft_two_signal.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_normalize.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\miqs_func_methods.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

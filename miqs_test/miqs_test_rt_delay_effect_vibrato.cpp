@@ -20,14 +20,16 @@ namespace miqs
 //5~ 14hz
 
 miqs_TEST_OBJ_NAME::miqs_TEST_OBJ_NAME():
-	width{ 100.0 }, buffer(width*2+20){
+	width{ 100.0 }, buffer(static_cast<size_t>(width*2+20)){
 	phase.set(440, 48000);
 	lfphase.set(5.0, 48000);
 }
 
 
-void miqs_TEST_OBJ_NAME::process(sample_t *, sample_t * out, size_t length)
+void miqs_TEST_OBJ_NAME::process(sample_t* in, size_t nchi, sample_t * out, size_t ncho, size_t length)
 {
+
+	(void)in; (void)nchi; (void)ncho;
 	auto& p = this->phase;
 	auto& lp = this->lfphase;
 	double& w = this->width;

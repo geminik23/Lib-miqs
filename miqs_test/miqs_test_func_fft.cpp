@@ -2,10 +2,9 @@
 #include "miqs_test.h"
 using namespace miqs_test;
 using namespace miqs;
-#define miqs_TEST_OBJ_NAME ana_fft
 
 #include <iomanip>
-void miqs_TEST_OBJ_NAME::process()
+void miqs_test::funcs::fft()
 {
 
 	std::cout << std::setprecision(4) << std::fixed;
@@ -84,6 +83,3 @@ void miqs_TEST_OBJ_NAME::process()
 
 
 }
-
-#undef miqs_TEST_OBJ_NAME
-

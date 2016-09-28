@@ -7,12 +7,13 @@ using namespace miqs;
 miqs_test::generator::generator()
 {
 	this->phasor.set_frequency(440.0);
-	this->phasor.set_samplerate(get_info().samplerate);
+	this->phasor.set_samplerate(48000);
 	this->phasor.update();
 }
 
-void miqs_test::generator::process(sample_t *, sample_t * out, size_t length)
+void miqs_test::generator::process(sample_t* in, size_t nchi, sample_t * out, size_t ncho, size_t length)
 {
+	(void)in; (void)nchi; (void)ncho;
 	//audio_info& info = this->get_info();
 	auto& phase = this->phasor;
 

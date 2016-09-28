@@ -3,16 +3,14 @@
 
 using namespace miqs_test;
 using namespace miqs;
-#define miqs_TEST_OBJ_NAME ana_spectrogram
-
-#include <miqsound.h>
 
 
 
 
 
 
-void spectrogram(std::vector<sample_t>& samples, size_t start, size_t step, std::vector<sample_t>& window)
+
+void _spectrogram(std::vector<sample_t>& samples, size_t start, size_t step, std::vector<sample_t>& window)
 {
 	miqs::transforms_fft<true> fft;
 
@@ -61,36 +59,33 @@ void spectrogram(std::vector<sample_t>& samples, size_t start, size_t step, std:
 }
 
 #include <iomanip>
-void miqs_TEST_OBJ_NAME::process()
+void miqs_test::funcs::spectrogram()
 {
 	std::cout << std::setprecision(4) << std::fixed;
 
 	// arguments
 	std::string filename{"a11wlk01.wav"};
-	size_t sndSampleCount;
+	size_t sndSampleCount{};
 	constexpr size_t windowSize = 512;
 	size_t stepSize = windowSize/2;
 
 	// sound in
-	Miqs::SoundFileIn in{ filename.c_str() };
-	sndSampleCount = in.GetNumberOfSamples();
+	//Miqs::SoundFileIn in{ filename.c_str() };
+	//sndSampleCount = in.GetNumberOfSamples();
 	
 	// init sampleBuffer
 	std::vector<miqs::sample_t> samples(sndSampleCount);
-	in.GetSoundFileSamplesAt(std::begin(samples), std::end(samples),0);
+	//in.GetSoundFileSamplesAt(std::begin(samples), std::end(samples),0);
 	
 
 	// fill window
 	std::vector<miqs::sample_t> window(windowSize);
 	
 	miqs::phasor_index phase{ windowSize };
-	miqs::generator<miqs::window::hanning<windowSize>, decltype(phase)> hann{phase};
+	miqs::generator<miqs::window::hanning_f<windowSize>, decltype(phase)> hann{phase};
 	std::generate(std::begin(window), std::end(window), hann);
 
 
-	spectrogram(samples, 0, stepSize, window);
+	_spectrogram(samples, 0, stepSize, window);
 
 }
-
-#undef miqs_TEST_OBJ_NAME
-

@@ -5,23 +5,6 @@
 namespace miqs
 {
 
-	/*	allocator	*/
-	template<class T> struct base_allocator
-	{
-	public:
-		typedef size_t size_type;
-		typedef std::ptrdiff_t difference_type;
-		typedef T* pointer;
-		typedef const T* const_pointer;
-		typedef T& reference;
-		typedef const T& const_reference;
-		typedef T value_type;
-	};
-
-
-
-
-
 	template<typename T>
 	class array_accessor
 	{
@@ -56,9 +39,9 @@ namespace miqs
 			self_type operator--() { self_type i = *this; ptr_--; return i; }
 			self_type operator--(int junk) { ptr_--; return *this; }
 			self_type& operator+=(difference_type off) { ptr_ += off; return *this; }
-			self_type operator+(difference_type off) { self_type s = *this; return (s += off); }
+			self_type operator+(difference_type off) { self_type s = *this; s.ptr_ += off; return s; }
 			self_type& operator-=(difference_type off) { ptr_ -= off; return *this; }
-			self_type operator-(difference_type off) { self_type s = *this; return (s -= off); }
+			self_type operator-(difference_type off) { self_type s = *this; s.ptr_ += off; return s; }
 			difference_type operator-(self_type const& _right)const { return (this->ptr_ - _right.ptr_) / sizeof(T); }
 
 			reference operator*() { return *ptr_; }
@@ -87,9 +70,9 @@ namespace miqs
 			self_type operator--() { self_type i = *this; ptr_--; return i; }
 			self_type operator--(int junk) { ptr_--; return *this; }
 			self_type& operator+=(difference_type off) { ptr_ += off; return *this; }
-			self_type operator+(difference_type off) { self_type s = *this; return (s += off); }
+			self_type operator+(difference_type off) { self_type s = *this; s.ptr_ += off; return s; }
 			self_type& operator-=(difference_type off) { ptr_ -= off; return *this; }
-			self_type operator-(difference_type off) { self_type s = *this; return (s -= off); }
+			self_type operator-(difference_type off) { self_type s = *this; s.ptr_ += off; return s; }
 			difference_type operator-(self_type const& _right)const { return (this->ptr_ - _right.ptr_) / sizeof(T); }
 
 
@@ -106,8 +89,11 @@ namespace miqs
 			attach(nullptr, 0);
 		}
 
+		array_accessor(array_accessor const& other):
+			m_array(other.m_array), m_size(other.size){	}
+
 		array_accessor(array_accessor && other):
-			m_array(array), m_size(size) {
+			m_array(other.m_array), m_size(other.size) {
 			other.attach(nullptr, 0);
 		}
 
@@ -132,47 +118,47 @@ namespace miqs
 
 		void clear()
 		{
-			m_array = 0;
+			m_array = nullptr;
 			m_size = 0;
 		}
 
-		void attach(T* array, size_t size)
+		void attach(T* array, size_type size)
 		{
 			m_array = array;
 			m_size = size;
 		}
 
-		size_t size()
+		size_type size()
 		{
 			return m_size;
 		}
 
-		const T& operator [] (unsigned i) const
+		const value_type& operator [] (unsigned i) const
 		{
 			return m_array[i];
 		}
 
-		T& operator [] (unsigned i)
+		value_type& operator [] (unsigned i)
 		{
 			return m_array[i];
 		}
 
-		const T& at(unsigned i) const
+		const value_type& at(unsigned i) const
 		{
 			return m_array[i];
 		}
 
-		T& at(unsigned i)
+		value_type& at(unsigned i)
 		{
 			return m_array[i];
 		}
 
-		T value_at(unsigned i) const
+		value_type value_at(unsigned i) const
 		{
 			return m_array[i];
 		}
 
-		T * data()
+		value_type * data()
 		{
 			return m_array;
 		}
@@ -197,13 +183,18 @@ namespace miqs
 			return  const_iterator(&m_array[m_size]);
 		}
 
-		explicit operator bool()
+		explicit operator bool() noexcept
 		{
 			return m_array == nullptr;
 		}
 
+		pointer operator& () noexcept 
+		{
+			return this->m_array;
+		}
+
 	protected:
-		T* m_array;
-		size_t m_size;
+		value_type* m_array;
+		size_type m_size;
 	};
 }

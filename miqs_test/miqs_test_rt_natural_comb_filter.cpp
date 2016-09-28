@@ -7,8 +7,9 @@ miqs_TEST_OBJ_NAME::miqs_TEST_OBJ_NAME() {
 }
 
 
-void miqs_TEST_OBJ_NAME::process(sample_t * in, sample_t * out, size_t length)
+void miqs_TEST_OBJ_NAME::process(sample_t* in, size_t nchi, sample_t * out, size_t ncho, size_t length)
 {
+	(void)in; (void)nchi; (void)ncho;
 
 }
 #undef miqs_TEST_OBJ_NAME

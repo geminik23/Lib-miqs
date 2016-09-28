@@ -25,7 +25,7 @@ namespace miqs
 		double get_phase() const noexcept { return phase; }
 		void set_phase(double p) noexcept { this->phase = p; }
 
-		void reset() noexcept { phase = 0.0; }
+		void reset(double init=0) noexcept { phase = init; }
 		void update() noexcept { step = miqs::PI * 2 * frequency / samplerate; }
 		void next() noexcept { phase += step; }
 
@@ -54,7 +54,7 @@ namespace miqs
 		double get_phase() const noexcept { return phase; }
 		void set_phase(double p) noexcept { this->phase = p; }
 
-		void reset() noexcept { phase = 0.0; }
+		void reset(double init=0.0) noexcept { phase = init; }
 		void update() noexcept { step = miqs::PI *norm_frequency; }
 		void next() noexcept { phase += step; }
 
@@ -103,7 +103,7 @@ namespace miqs
 		size_t get_index() const noexcept { return index; }
 		size_t get_bound() const noexcept { return bound_index; }
 
-		void reset() noexcept { index = 0; }
+		void reset(size_t init = 0) noexcept { index = init; }
 		void update() noexcept { if(index > bound_index) index %= bound_index; }
 		void next() noexcept { ++index; update(); }
 
@@ -117,5 +117,36 @@ namespace miqs
 		size_t index{};
 		size_t bound_index{4096};
 	};
+
+
+
+	// phasor using step
+	struct phasor_step
+	{
+		phasor_step() = default;
+		phasor_step(double step_):step{ step_ } { update(); reset(); }
+
+		double get_phase() const noexcept { return phase; }
+		void set_phase(double p) noexcept { this->phase = p; }
+
+		double get_step() const noexcept { return step; }
+		void set_step(double s) noexcept { this->step = s; }
+
+		void reset(double init = 0.0) noexcept { phase = init; }
+		void update() noexcept {}
+		void next() noexcept { phase += step; }
+
+		double operator()() noexcept
+		{
+			auto p = get_phase();
+			next();
+			return p;
+		}
+
+		double phase{};
+		double step{};
+
+	};
+
 
 }

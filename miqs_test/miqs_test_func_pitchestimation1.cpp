@@ -1,7 +1,6 @@
 #include "miqs_test.h"
 using namespace miqs_test;
 using namespace miqs;
-#define miqs_TEST_OBJ_NAME pitch_estimation1
 
 
 
@@ -11,7 +10,7 @@ using namespace miqs;
 
 
 
-void miqs_TEST_OBJ_NAME::process()
+void miqs_test::funcs::pitchestimation1()
 {
 
 	double freq = 440.0, freq2 = 20000.0;
@@ -70,5 +69,3 @@ void miqs_TEST_OBJ_NAME::process()
 
 
 }
-
-#undef miqs_TEST_OBJ_NAME

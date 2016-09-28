@@ -3,11 +3,9 @@
 #include "miqs_test.h"
 using namespace miqs_test;
 using namespace miqs;
-#define miqs_TEST_OBJ_NAME ana_delay
-
 
 #include <iomanip>
-void miqs_TEST_OBJ_NAME::process()
+void miqs_test::funcs::delay()
 {
 	std::cout << std::fixed << std::setprecision(3);
 	std::vector<sample_t> data(12, 0.0);
@@ -71,5 +69,3 @@ void miqs_TEST_OBJ_NAME::process()
 	std::cout << "\n\n";
 
 }
-
-#undef miqs_TEST_OBJ_NAME

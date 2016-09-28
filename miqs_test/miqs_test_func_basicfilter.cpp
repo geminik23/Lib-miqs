@@ -3,9 +3,8 @@
 #include "miqs_test.h"
 using namespace miqs_test;
 using namespace miqs;
-#define miqs_TEST_OBJ_NAME ana_basicfilter
 
-void miqs_TEST_OBJ_NAME::process(){
+void miqs_test::funcs::basicfilter(){
 	std::vector<sample_t> x(10, 0.0);
 	x[0] = 1.0;
 
@@ -64,5 +63,3 @@ void miqs_TEST_OBJ_NAME::process(){
 	std::cout << "\n";
 
 }
-
-#undef miqs_TEST_OBJ_NAME

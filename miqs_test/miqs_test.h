@@ -2,7 +2,7 @@
 #include <miqs.h>
 
 #include <iomanip>
-
+#include <MiqsSound.h>
 #define q_interface struct
 
 
@@ -12,7 +12,7 @@ namespace miqs_test
 {
 
 	q_interface iprocessor{
-		virtual void process(sample_t *in, sample_t * samples, size_t length) = 0;
+		virtual void process(sample_t* in, size_t nchi, sample_t * out, size_t ncho, size_t length) = 0;
 		virtual void set_info(miqs::uint32_t size, miqs::uint32_t samplerate) = 0;
 	};
 	q_interface idata{};
@@ -36,171 +36,93 @@ public:\
 	NAME();\
 	virtual void set_info(miqs::uint32_t size=512, miqs::uint32_t samplerate=48000){ _info.vector_size = size;_info.samplerate = samplerate; }\
 	audio_info& get_info(){return _info;}\
-	virtual void process(sample_t* in, sample_t * out, size_t length);\
+	virtual void process(sample_t* in, size_t nchi, sample_t * out, size_t ncho, size_t length);\
 private:\
 	audio_info _info;\
+public:\
 	TYPES\
 }
 
-#define ANALYSIS_DATA(NAME, TYPE)\
-struct NAME##_data: public idata{\
-TYPE\
-}
-
-
-#define ANALYSIS_PROCESSOR(NAME) \
-	class NAME : public ianalysis_processor\
-	{\
-	public:\
-		typedef NAME##_data data_type;\
-		virtual void* result() { return (void*)&this->_data; }\
-		virtual void process();\
-		data_type* get_data() { return &_data; }\
-		data_type _data;\
-	}
 
 
 
-	// TESTs
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// testing functions
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	struct funcs
+	{
+		static void implement_test();
+		static void linear_line();
+		static void sola();
+		static void lpc_analysis();
+		static void lpc_cross();
+		static void cepstrum();
+		static void simple_granular();
+		static void allpassfilter();
+		static void applywindow();
+		static void basicfilter();
+		static void biquadfilter();
+		static void combfilter();
+		static void convert_samplerate();
+		static void delay();
+		static void fft();
+		static void pitchestimation1();
+		//static void pitchestimation2();
+		static void spectrogram();
+		static void fft_2real_signal();
+		static void fast_convolution();
+		static void envelope1();
+		static void cepstrum_cross();
+		static void cepstrum_formant_move();
+		static void cepstrum_formant_move_directly();
+		static void spectral_interpolation();
+	};
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Realtime Implement Test
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Test
+	PROCESSOR(implement_test, miqs::phasor phase; double angle;);
+
+
+
+
 	// generate sinewave basic.
 	PROCESSOR(generator, miqs::phasor phasor;);
-
 	// basic operators
 	PROCESSOR(basic_ops, miqs::phasor phasor;);
 
-
-
-	
 	/* delay and comb based effects */
 	// vibrato
 	PROCESSOR(delay_effect_vibrato,
 			  double width;
-			  miqs::phasor phase;
-			  miqs::phasor lfphase;
-			  miqs::delay buffer;);
+	miqs::phasor phase;
+	miqs::phasor lfphase;
+	miqs::delay buffer;);
+
+	// chorus
+	PROCESSOR(delay_effect_chorus,
+			  double width;
+	miqs::phasor phase;
+	miqs::phasor lfphase;
+	miqs::delay buffer;);
+
+	// stereo panning
+	PROCESSOR(stereopanning, miqs::phasor phase; double angle;);
 
 	// flanger, chorus, slapback, echo   // p97
-	PROCESSOR(comb_effects, );
+	PROCESSOR(comb_effects,
+			  miqs::delay delay;
+	miqs::iir_comb_filter<miqs::delay> iircomb;);
 
 	// natural sounding comb filter
 	PROCESSOR(natural_comb_filter, );
 
+	// modulations
+	PROCESSOR(modulations, miqs::phasor phase1; miqs::phasor phase2;);
 
-
-
-
-
-
-
-	
-	//
-	// Analysis Processor
-	//
-	// apply window
-	ANALYSIS_DATA(ana_apply_window,);
-	ANALYSIS_PROCESSOR(ana_apply_window);
-
-	// tranform_fft
-	ANALYSIS_DATA(ana_fft, );
-	ANALYSIS_PROCESSOR(ana_fft);
-
-	// Spectrogram //TODO  check sound
-	ANALYSIS_DATA(ana_spectrogram, );
-	ANALYSIS_PROCESSOR(ana_spectrogram);
-
-
-	/** TODO
-		FILTERS
-	**/
-
-	// Basic Filter 
-	ANALYSIS_DATA(ana_basicfilter, );
-	ANALYSIS_PROCESSOR(ana_basicfilter);
-
-	// Allpass Filter 
-	ANALYSIS_DATA(ana_allpassfilter, );
-	ANALYSIS_PROCESSOR(ana_allpassfilter);
-
-	// Biquad Filter (iir_df2) direct-form 2.
-	ANALYSIS_DATA(ana_biquadfilter, );
-	ANALYSIS_PROCESSOR(ana_biquadfilter);
-
-	// Delay and fraction delay
-	ANALYSIS_DATA(ana_delay, );
-	ANALYSIS_PROCESSOR(ana_delay); 
-
-	// Comb Filter
-	ANALYSIS_DATA(ana_comb_filter, );
-	ANALYSIS_PROCESSOR(ana_comb_filter);
-
-
-	/** TODO
-		MODULATIONS [DAFX p101]
-	**/
-
-
-	/** TODO
-		SPATIAL EFFECTS [DAFX p156]
-	**/
-
-
-
-	/* TODO
-	Time Segment p201 
-	1. time stretching SOLA, PSOLA, 
-	2. pitch shifting
-	3. 
-	*/
-
-	/** TODO
-		Time Shuffling and granulation [DAFX p226]
-
-	**/
-
-
-	/** TODO
-	Source-Filter processing [DAFX p294]
-	1. LPC
-	2. Cepstrum
-	3. Cross Synthesis ? 
-	4. Formant changing
-	5. Spectrum interpolation
-	**/
-
-	/**
-		Adaptive digital audio	effects [DAFX 336]
-	** PITCH
-	** GRANULAR
-	**/
-
-	/**??
-	SPECTRAL PROCESSING [DAFX 407]
-	**/
-
-
-	/**??
-	 Time-Freq Warping [DAFX 460]
-	**/
-
-	
-
-
-
-	// pitch using zerocross
-	ANALYSIS_DATA(pitch_estimation1,);
-	ANALYSIS_PROCESSOR(pitch_estimation1);
-
-	// pitch using autocorrelation
-	ANALYSIS_DATA(pitch_estimation2,);
-	ANALYSIS_PROCESSOR(pitch_estimation2);
-
-
-
-
-
-	// pitch using autocorrelation
-	ANALYSIS_DATA(implement_test, );
-	ANALYSIS_PROCESSOR(implement_test);
 
 }
 
@@ -210,11 +132,12 @@ TYPE\
 //#include "miqs_test.h"
 //using namespace miqs_test;
 //using namespace miqs;
+//#define miqs_TEST_OBJ_NAME 
 //miqs_TEST_OBJ_NAME::miqs_TEST_OBJ_NAME() {
 //}
 //
 //
-//void miqs_TEST_OBJ_NAME::process(sample_t * in, sample_t * out, size_t length) {
+//void miqs_TEST_OBJ_NAME::process(sample_t* in, size_t nchi, sample_t * out, size_t ncho, size_t length) {
 //
 //}
 //#undef miqs_TEST_OBJ_NAME
