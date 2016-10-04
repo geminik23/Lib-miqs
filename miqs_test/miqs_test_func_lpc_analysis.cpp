@@ -66,7 +66,6 @@ void miqs_test::funcs::lpc_analysis()
 		//std::transform(s_begin, s_end, std::begin(temp_result), std::back_inserter(residual), std::minus<sample_t>());
 		std::copy(std::begin(temp_result), std::end(temp_result), std::back_inserter(residual));
 
-
 		s_begin = s_end;
 		s_end = s_end + blockLength;
 	}

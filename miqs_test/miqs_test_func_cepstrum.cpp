@@ -58,7 +58,7 @@ void miqs_test::funcs::cepstrum()
 	//			   miqs::divides_const<std::complex<sample_t>>(std::complex
 
 	// cart to polar
-	std::transform(std::begin(fftcomp), std::end(fftcomp), std::begin(fftcomp), miqs::cartesian_to_polar());
+	std::transform(std::begin(fftcomp), std::end(fftcomp), std::begin(fftcomp), miqs::cartesian_to_polar<>());
 
 
 	std::transform(miqs::begin(fftsamples,0), miqs::end(fftsamples, 0), miqs::begin(fftsamples, 0),

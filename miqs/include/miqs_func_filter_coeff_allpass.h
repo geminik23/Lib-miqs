@@ -19,7 +19,7 @@ namespace miqs
 
 		void operator()(double * c)
 		{
-			double t = std::tan(math::PI * m_info.normalized_cutoff_freqeuncy() / 2.0);
+			double t = std::tan(math::Pi * m_info.normalized_cutoff_freqeuncy() / 2.0);
 			*c = (t - 1) / (t + 1);
 		}
 
@@ -44,9 +44,9 @@ namespace miqs
 		template <typename _Iter>
 		void operator()(_Iter c)
 		{
-			double t = std::tan(math::PI * m_info.normalized_bandwidth() / 2.0);
+			double t = std::tan(math::Pi * m_info.normalized_bandwidth() / 2.0);
 			*c++ = (t - 1) / (t + 1);
-			*c = -1 * std::cos(math::PI*m_info.normalized_cutoff_freqeuncy() / 2.0);
+			*c = -1 * std::cos(math::Pi*m_info.normalized_cutoff_freqeuncy() / 2.0);
 		}
 
 	private:

@@ -38,9 +38,9 @@ namespace miqs
 			iterator(pointer ptr, size_type tc): ptr_(ptr), cont_ch_(tc) {}
 			iterator(self_type const& other):ptr_(other.ptr_), cont_ch_(other.cont_ch_) {}
 			self_type operator++() { self_type i = *this; ptr_ += cont_ch_; return i; }
-			self_type operator++(int junk) { ptr_ += cont_ch_; return *this; }
+			self_type operator++(int) { ptr_ += cont_ch_; return *this; }
 			self_type operator--() { self_type i = *this; ptr_ -= cont_ch_; return i; }
-			self_type operator--(int junk) { ptr_ -= cont_ch_; return *this; }
+			self_type operator--(int) { ptr_ -= cont_ch_; return *this; }
 			self_type& operator+=(difference_type off) { ptr_ += off*cont_ch_; return *this; }
 			self_type operator+(difference_type off) { self_type s = *this; s.ptr_ += off*cont_ch_; return s; }
 			self_type& operator-=(difference_type off) { ptr_ -= off*cont_ch_; return *this; }
@@ -156,6 +156,7 @@ namespace miqs
 		const size_type size() const noexcept { return m_size*m_nch; }
 		pointer data() noexcept { return m_array; }
 
+		void set_size(size_t size) noexcept { this->m_size = size; }
 
 		const value_type& operator () (size_t c, size_t i) const
 		{
@@ -177,6 +178,7 @@ namespace miqs
 			return m_array[i*this->m_nch + c];
 		}
 
+	
 
 
 

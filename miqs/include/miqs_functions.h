@@ -6,21 +6,22 @@ namespace miqs
 {
 
 	/* cartesian & polar coordinates */
-	struct cartesian_to_polar
+
+	template <typename _Ty= sample_t>
+	struct cartesian_to_polar : _base_trans_arg1<std::complex<_Ty>>
 	{
-		template <typename _Ty>
-		std::complex<_Ty> operator()(const std::complex<_Ty>& c)
+		result_type operator()(argument_type const& c)
 		{
-			return std::complex<_Ty>(std::sqrt(c.real() * c.real() + c.imag() * c.imag()), std::atan2(c.imag(), c.real()));
+			return result_type(std::sqrt(c.real() * c.real() + c.imag() * c.imag()), std::atan2(c.imag(), c.real()));
 		}
 	};
 
-	struct polar_to_cartesian
+	template <typename _Ty = sample_t>
+	struct polar_to_cartesian: _base_trans_arg1<std::complex<_Ty>>
 	{
-		template <typename _Ty>
-		std::complex<_Ty> operator()(const std::complex<_Ty>& c)
+		result_type operator()(argument_type const& c)
 		{
-			return std::complex<_Ty>(c.real()*std::cos(c.imag()), c.real()*std::sin(c.imag()));
+			return result_type(c.real()*std::cos(c.imag()), c.real()*std::sin(c.imag()));
 		}
 	};
 
@@ -39,14 +40,6 @@ namespace miqs
 	}
 
 
-
-
-	// get container
-	template <typename _Wrapper>
-	auto& container(_Wrapper& wrap)
-	{
-		return wrap._Get_container();
-	}
 
 
 

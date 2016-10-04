@@ -95,8 +95,8 @@ void miqs_test::funcs::spectral_interpolation()
 		miqs::plus_const<sample_t>(std::numeric_limits<sample_t>::epsilon()),
 		miqs::log<sample_t>()
 		);
-	auto op_mag = miqs::make_cascades_functions<SampleComplex>(divides_const<SampleComplex>({ static_cast<sample_t>(sizeOfWin / 2) ,0.0 }), miqs::cartesian_to_polar());
-	auto op_rev_mag = miqs::make_cascades_functions<SampleComplex>(miqs::polar_to_cartesian(), miqs::multiplies_const<SampleComplex>({ static_cast<sample_t>(sizeOfWin / 2) ,0 }));
+	auto op_mag = miqs::make_cascades_functions<SampleComplex>(divides_const<SampleComplex>({ static_cast<sample_t>(sizeOfWin / 2) ,0.0 }), miqs::cartesian_to_polar<>());
+	auto op_rev_mag = miqs::make_cascades_functions<SampleComplex>(miqs::polar_to_cartesian<>(), miqs::multiplies_const<SampleComplex>({ static_cast<sample_t>(sizeOfWin / 2) ,0 }));
 
 
 	while (pin < pend)

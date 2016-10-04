@@ -84,7 +84,14 @@ public:\
 	// Realtime Implement Test
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Test
-	PROCESSOR(implement_test, miqs::phasor phase; double angle;);
+	PROCESSOR(implement_test,
+
+			  double m_ratio;
+	size_t m_cur_position;
+	miqs::array<> m_window;
+	miqs::array<> m_samples;
+	miqs::array<> m_index1;
+	miqs::array<> m_index2;);
 
 
 

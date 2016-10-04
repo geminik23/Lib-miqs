@@ -195,6 +195,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_normalize.h">
       <Filter>include\functions</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_linear_combination.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_bind_complex_func1.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_func_centershift.h">
+      <Filter>include\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_basic_algorithm.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)include\miqs_func_methods.cpp">

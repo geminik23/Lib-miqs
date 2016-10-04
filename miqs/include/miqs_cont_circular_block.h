@@ -172,8 +172,16 @@ namespace miqs
 			m_head = (m_head == 0) ? N - 1 : m_head - 1;
 		}
 
+
+		static miqs::sample_t end_value;
+
 		int m_head = 0;
 		int m_tail = N - 1;
 		sample_t m_data[N] = {};
 	};
+
+
+
+	template <int N>
+	sample_t circular_sample_block<N>::end_value = 0.0;
 }

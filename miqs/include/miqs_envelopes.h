@@ -47,8 +47,8 @@ namespace miqs
 
 			std::vector<intervals_type> intervals() const noexcept { return m_intervals; }
 			std::vector<weights_type> weights() const noexcept { return m_weights; }
-			weights_type max() const noexcept { return *std::max_element(std::begin(m_weights), std::end(weights)); }
-			weights_type min() const noexcept { return *std::min_element(std::begin(m_weights), std::end(weights)); }
+			weights_type max_value() const noexcept { return *std::max_element(std::begin(m_weights), std::end(weights)); }
+			weights_type min_value() const noexcept { return *std::min_element(std::begin(m_weights), std::end(weights)); }
 
 			// function operator
 
@@ -103,11 +103,11 @@ namespace miqs
 
 				if (i < std::get<0>(m_asr))
 				{
-					return static_cast<result_type>((1.0 + cos(miqs::PI + (miqs::PI * static_cast<double>(i) / std::get<0>(m_asr)))) / 2.0);
+					return static_cast<result_type>((1.0 + cos(miqs::Pi + (miqs::Pi * static_cast<double>(i) / std::get<0>(m_asr)))) / 2.0);
 				}
 				else if (i >= std::get<0>(m_asr) + std::get<1>(m_asr))
 				{
-					return static_cast<result_type>((1.0 + cos(miqs::PI * static_cast<double>(i - (std::get<0>(m_asr) + std::get<1>(m_asr))) / std::get<0>(m_asr))) / 2.0);
+					return static_cast<result_type>((1.0 + cos(miqs::Pi * static_cast<double>(i - (std::get<0>(m_asr) + std::get<1>(m_asr))) / std::get<0>(m_asr))) / 2.0);
 				}
 				return 1.0;
 			}

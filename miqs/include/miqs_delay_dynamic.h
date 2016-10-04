@@ -9,6 +9,9 @@ namespace miqs
 	/* delay : dynamic delay */
 	struct delay
 	{
+		typedef sample_t argument_type;
+		typedef sample_t result_type;
+		
 		delay(size_t delay_, size_t reserve = 256)
 			:m_delaysample{ delay_ }, m_buffer(std::minmax(delay_, reserve).second, 0), m_delay{ m_buffer, m_buffer.size() }
 		{

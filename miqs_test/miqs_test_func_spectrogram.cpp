@@ -39,7 +39,7 @@ void _spectrogram(std::vector<sample_t>& samples, size_t start, size_t step, std
 		fft(ana_segment);
 		
 		// cartesian to polar
-		std::transform(std::begin(ana_segment), std::end(ana_segment), std::begin(ana_segment), miqs::cartesian_to_polar());
+		std::transform(std::begin(ana_segment), std::end(ana_segment), std::begin(ana_segment), miqs::cartesian_to_polar<>());
 
 		miqs::complex_copy_to_single<real_part>(std::begin(ana_segment), std::end(ana_segment), std::begin(result));
 		

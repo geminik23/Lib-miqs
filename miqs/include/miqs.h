@@ -1,12 +1,13 @@
 #pragma once
 
-
 // core
 #include "miqs_basictype.h"
+#include "miqs_basic_algorithm.h"
 #include "miqs_utils.h"
 #include "miqs_math.h"
 #include "miqs_phasors.h"
 #include "miqs_interpolation.h"
+
 
 // envelope
 #include "miqs_envelopes.h"
@@ -66,12 +67,14 @@
 #include "miqs_func_levinson_durbin_method.h"
 #include "miqs_func_schur_recursion.h"
 #include "miqs_func_bind_func2.h"
+#include "miqs_func_bind_complex_func1.h"
 #include "miqs_func_cascades.h"
 #include "miqs_func_wrap_trans_func.h"
 #include "miqs_func_fft_two_signal.h"
 #include "miqs_func_fast_convolution.h"
 #include "miqs_func_normalize.h"
 #include "miqs_func_linear_combination.h"
+#include "miqs_func_centershift.h"
 
 // analysis
 #include "miqs_ana_lpc.h"

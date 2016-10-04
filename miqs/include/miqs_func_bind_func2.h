@@ -14,8 +14,7 @@ namespace miqs
 		typedef _MainFunc main_type;
 		typedef _AdjustFunc adjust_type;
 	public:
-		_combine_func_a2(main_type&& main, adjust_type&& adjust):
-			main_type(std::forward<main_type>(main)), _adjust_func(std::forward<adjust_type>(adjust)) {}
+		_combine_func_a2(main_type&& , adjust_type&&){}
 	};
 
 	//
@@ -100,7 +99,7 @@ namespace miqs
 	};
 
 	template <int POS, typename _MainFunc, typename _AdjustFunc>
-	_binder_func_two_with_one_arg<POS, _MainFunc, _AdjustFunc> bind_func_2arg(_MainFunc&& main, _AdjustFunc&& adjust)
+	auto bind_func_2arg(_MainFunc&& main, _AdjustFunc&& adjust) ->_binder_func_two_with_one_arg<POS, _MainFunc, _AdjustFunc>
 	{
 		return _binder_func_two_with_one_arg<POS, _MainFunc, _AdjustFunc>(std::forward<_MainFunc>(main), std::forward<_AdjustFunc>(adjust));
 	}

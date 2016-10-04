@@ -90,15 +90,39 @@ namespace miqs
 		}
 
 		array_accessor(array_accessor const& other):
-			m_array(other.m_array), m_size(other.size){	}
+			m_array(other.m_array), m_size(other.size) {}
 
 		array_accessor(array_accessor && other):
-			m_array(other.m_array), m_size(other.size) {
+			m_array(other.m_array), m_size(other.size)
+		{
 			other.attach(nullptr, 0);
 		}
 
 		array_accessor(T* array, size_t size):
 			m_array(array), m_size(size) {}
+
+		void increase_front() noexcept
+		{
+			++this->m_size;
+			this->m_array -= 1;
+		}
+
+		void increase_back() noexcept
+		{
+			++this->m_size;
+		}
+
+		void decrease_front() noexcept
+		{
+			--this->m_size;
+			this->m_array += 1;
+		}
+
+		void decrease_back() noexcept
+		{
+			--this->m_size;
+		}
+
 
 		bool operator !=(const self_type& dst)
 		{
@@ -188,7 +212,7 @@ namespace miqs
 			return m_array == nullptr;
 		}
 
-		pointer operator& () noexcept 
+		pointer operator& () noexcept
 		{
 			return this->m_array;
 		}
@@ -197,4 +221,25 @@ namespace miqs
 		value_type* m_array;
 		size_type m_size;
 	};
+
+	template <typename _Ty>
+	auto make_array_accessor(_Ty* data, size_t size)
+	{
+		return array_accessor<_Ty>(data, size);
+	}
+
+	template <typename _Ty>
+	auto make_array_accessor(miqs::array<_Ty>& data)
+	{
+		return array_accessor<_Ty>(data.data(), data.size());
+	}
+
+	template <typename _Ty>
+	auto make_array_accessor(miqs::array<_Ty>& data, size_t size)
+	{
+		return array_accessor<_Ty>(data.data(), size);
+	}
+
+
+
 }

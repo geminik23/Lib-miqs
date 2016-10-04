@@ -107,14 +107,14 @@ void miqs_test::funcs::cepstrum_formant_move()
 
 		//=================== magnitude and log 
 		std::transform(std::begin(grain), std::end(grain), std::begin(grain), miqs::divides_const<SampleComplex>(SampleComplex(halfSWin, 0.0)));
-		std::transform(std::begin(grain), std::end(grain), std::begin(grain), miqs::cartesian_to_polar());
+		std::transform(std::begin(grain), std::end(grain), std::begin(grain), miqs::cartesian_to_polar<>());
 
 		std::copy(std::begin(grain), std::end(grain), std::begin(com_fft1));
 		std::transform(miqs::begin(acc_fft1, 0), miqs::end(acc_fft1, 0), miqs::begin(acc_fft1, 0), op_log_mag);
 
 
 		std::transform(std::begin(com_fft2), std::end(com_fft2), std::begin(com_fft2), miqs::divides_const<SampleComplex>(SampleComplex(halfSWin, 0.0)));
-		std::transform(std::begin(com_fft2), std::end(com_fft2), std::begin(com_fft2), miqs::cartesian_to_polar());
+		std::transform(std::begin(com_fft2), std::end(com_fft2), std::begin(com_fft2), miqs::cartesian_to_polar<>());
 		std::transform(miqs::begin(acc_fft2, 0), miqs::end(acc_fft2, 0), miqs::begin(acc_fft2, 0), op_log_mag);
 
 
@@ -139,7 +139,7 @@ void miqs_test::funcs::cepstrum_formant_move()
 		std::transform(miqs::begin(acc_grain, 0), miqs::end(acc_grain, 0), miqs::begin(acc_fft2, 0), miqs::begin(acc_grain, 0),
 					   std::multiplies<sample_t>());
 
-		std::transform(std::begin(grain), std::end(grain), std::begin(grain), miqs::polar_to_cartesian());
+		std::transform(std::begin(grain), std::end(grain), std::begin(grain), miqs::polar_to_cartesian<>());
 		std::transform(std::begin(grain), std::end(grain), std::begin(grain), miqs::multiplies_const<SampleComplex>(SampleComplex(halfSWin, 0.0)));
 
 		ifft(grain);

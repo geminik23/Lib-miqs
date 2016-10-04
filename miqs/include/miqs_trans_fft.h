@@ -28,8 +28,8 @@ namespace miqs
 		complex_sample_type *sin_table = new complex_sample_type[length / 2];
 		for (uint32_t i = 0; i < length / 2; i++)
 		{
-			cos_table[i] = static_cast<complex_sample_type>(std::cos(2 * miqs::PI * i / (complex_sample_type)length));
-			sin_table[i] = static_cast<complex_sample_type>(std::sin(2 * miqs::PI * i / (complex_sample_type)length));
+			cos_table[i] = static_cast<complex_sample_type>(std::cos(2 * miqs::Pi * i / (complex_sample_type)length));
+			sin_table[i] = static_cast<complex_sample_type>(std::sin(2 * miqs::Pi * i / (complex_sample_type)length));
 		}
 
 

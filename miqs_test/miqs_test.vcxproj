@@ -185,6 +185,7 @@
     <ClInclude Include="miqs_test.h" />
     <ClInclude Include="miqs_test_func_allpassfilter.cpp" />
     <ClInclude Include="miqs_test_func_lpc_analysis.cpp" />
+    <ClInclude Include="miqs_test_newfea_bind_comp_func.h" />
     <ClInclude Include="miqs_test_newfea_normalize.h" />
   </ItemGroup>
   <ItemGroup>

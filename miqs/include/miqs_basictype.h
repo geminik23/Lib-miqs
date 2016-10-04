@@ -110,10 +110,11 @@ namespace miqs
 
 
 	//============================function
-	enum func_parameter_position
+	typedef enum func_parameter_position
 	{
-		LEFT = 1, RIGHT, RESULT
-	};
+		LEFT = 1, RIGHT, ARG1 = LEFT, ARG2 = RIGHT, ARG, RESULT
+	} func_param_pos;
+
 
 	template <typename _R, typename _A1, typename _A2>
 	struct _type_combine_func_a2
@@ -123,7 +124,21 @@ namespace miqs
 		typedef typename _R result_type;
 	};
 
+	template <typename _R, typename _A>
+	struct _type_combine_func_a1
+	{
+		typedef typename _A argument_type;
+		typedef typename _R result_type;
+	};
 
+
+
+
+	template <typename _Wrapper>
+	auto& container(_Wrapper& wrapper)
+	{
+		return wrapper._Get_container();
+	}
 	// get data from Container
 	template <typename _Ty, typename _Cont>
 	_Ty* data(_Cont& container)
@@ -136,6 +151,76 @@ namespace miqs
 	{
 		return container.data();
 	}
+
+
+
+	template <typename _Cont>
+	auto* ptr_begin(_Cont& container) { return container.data(); }
+
+	template <typename _Cont>
+	auto* ptr_end(_Cont& container) { return container.data() + container.size(); }
+
+	template <typename _Cont>
+	auto* ptr_at(_Cont& container, size_t at) { return container.data() + at; }
+
+
 	//============================
+
+	template <typename _Ty=sample_t>
+	class array{
+	public:
+		typedef _Ty value_type;
+
+		array() : m_size{}, m_data{ nullptr } {}
+		array(size_t size) : m_size{ size } { m_data = new value_type[size]; }
+		array(array const&) = delete;
+		array(array && other) : m_size{ other.m_size }, m_data{ other.m_data } { other.free(); }
+		~array() { free(); }
+		
+		void free() { if (m_data) { delete[] m_data; m_data = nullptr; m_size = 0; } }
+
+		value_type* data() noexcept { return m_data; }
+		size_t size() const noexcept { return m_size; }
+
+		operator value_type* () { return m_data; }
+
+		void reset(size_t size = 0)
+		{
+			if (size == m_size) return;
+			this->free();
+			if (size == 0) return;
+			this->m_size = size;
+			this->m_data = new value_type[m_size];
+		}
+	private: 
+		value_type * m_data;
+		size_t m_size;
+	};
+
+	template <typename _Ty, int N>
+	class array_of_array
+	{
+	public:
+		typedef _Ty value_type;
+		typedef miqs::array<value_type> container_type;
+		array_of_array() = default;
+		array_of_array(std::initializer_list<size_t> list)
+		{
+			size_t i{};
+			std::for_each(std::begin(list), std::end(list), [this, &i](auto&& v) {
+				this->m_arrays[i].reset(v);
+				++i;
+			});
+		}
+		array_of_array(array_of_array const&) = delete;
+		array_of_array(array_of_array&&) = delete;
+
+		container_type& operator[](size_t n){ return m_arrays[n]; }
+
+	private:
+		container_type m_arrays[N];
+	};
+
+
 
 }

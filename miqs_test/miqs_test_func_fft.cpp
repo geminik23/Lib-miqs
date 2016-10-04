@@ -39,7 +39,7 @@ void miqs_test::funcs::fft()
 
 	//---------------------------------
 
-	std::transform(std::begin(comp), std::end(comp), std::begin(cp), miqs::cartesian_to_polar());
+	std::transform(std::begin(comp), std::end(comp), std::begin(cp), miqs::cartesian_to_polar<>());
 
 	std::cout << "::polar::\n";
 	std::copy(std::begin(cp), std::end(cp), std::ostream_iterator<std::complex<sample_t>>(std::cout, " "));
@@ -66,7 +66,7 @@ void miqs_test::funcs::fft()
 
 	//
 	// back
-	std::transform(std::begin(cp), std::end(cp), std::begin(comp), miqs::polar_to_cartesian());
+	std::transform(std::begin(cp), std::end(cp), std::begin(comp), miqs::polar_to_cartesian<>());
 
 	//---------------------------------
 

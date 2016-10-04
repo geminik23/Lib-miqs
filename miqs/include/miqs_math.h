@@ -8,7 +8,7 @@ namespace miqs
 {
 
 	static const double Eps = 0.0000000000000001;
-	static const double PI = 3.14159265358979323846;
+	static const double Pi = 3.14159265358979323846;
 	static const double E = 2.71828182845904523536;
 	static const double Sqrt_2 = 1.4142135623730950488016;
 
@@ -180,8 +180,8 @@ namespace miqs
 	inline int32_t sign(T & a) { return ((a >= 0) ? 1 : (-1)); }
 
 	// degree <-> radian
-	inline double degree_to_radian(double deg) { return deg * PI / 180.0; }
-	inline double radian_to_degree(double rad) { return rad * 180.0 / PI; }
+	inline double degree_to_radian(double deg) { return deg * Pi / 180.0; }
+	inline double radian_to_degree(double rad) { return rad * 180.0 / Pi; }
 	
 	// midi <-> freq
 	inline double midi_to_freq(double midi) { return std::pow(2, (midi - 69) / 12) * 440.0; }
