@@ -14,7 +14,7 @@ namespace miqs
 		template <typename _Iter1, typename _Iter2>
 		void operator()(_Iter1 a_begin, _Iter2 b_begin)
 		{
-			_FilterTy()(std::tan(miqs::Pi * m_info.normalized_cutoff_freqeuncy() / 2.0)
+			_FilterTy()(std::tan(miqs::pi * m_info.normalized_cutoff_freqeuncy() / 2.0)
 						, m_info.normalized_cutoff_freqeuncy() / m_info.normalized_bandwidth()
 						, a_begin, b_begin);
 		};
@@ -107,7 +107,7 @@ namespace miqs
 				double t = Q / (kkq + K + Q);
 				*b_begin++ = t;
 				*b_begin++ = -2 * t;
-				*b_begin = t
+				*b_begin = t;
 			}
 		};
 

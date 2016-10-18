@@ -20,8 +20,10 @@ namespace miqs
 		typedef typename allocator_type::difference_type   difference_type;
 
 
-		typedef sample_t* iterator;
-		typedef const sample_t* const_iterator;
+		typedef pointer iterator;
+		typedef const iterator const_iterator;
+
+		sample_wrapper() = default;
 		sample_wrapper(sample_t * data):_s{ data } {}
 
 		sample_t * data()  noexcept
@@ -87,7 +89,7 @@ namespace miqs
 		void reset() { for (int i = 0; i < N; ++i) _s[i] = 0; }
 		size_t size() const { return N; }
 	private:
-		sample_t * _s;
+		sample_t * _s{};
 	};
 
 }

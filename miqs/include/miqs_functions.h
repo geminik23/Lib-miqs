@@ -2,26 +2,26 @@
 
 #include "miqs_basictype.h"
 
+
+
 namespace miqs
 {
-
 	/* cartesian & polar coordinates */
-
 	template <typename _Ty= sample_t>
-	struct cartesian_to_polar : _base_trans_arg1<std::complex<_Ty>>
+	struct cartesian_to_polar : _base_trans_arg1<std::pair<_Ty, _Ty>>
 	{
 		result_type operator()(argument_type const& c)
 		{
-			return result_type(std::sqrt(c.real() * c.real() + c.imag() * c.imag()), std::atan2(c.imag(), c.real()));
+			return result_type(std::sqrt(c.first * c.first + c.second * c.second), std::atan2(c.second, c.first));
 		}
 	};
 
 	template <typename _Ty = sample_t>
-	struct polar_to_cartesian: _base_trans_arg1<std::complex<_Ty>>
+	struct polar_to_cartesian: _base_trans_arg1<std::pair<_Ty, _Ty>>
 	{
 		result_type operator()(argument_type const& c)
 		{
-			return result_type(c.real()*std::cos(c.imag()), c.real()*std::sin(c.imag()));
+			return result_type(c.first*std::cos(c.second), c.first*std::sin(c.second));
 		}
 	};
 

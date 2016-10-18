@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{1E85F39E-4A86-4233-8923-D2CCA59B101B}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_all_pole.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_all_zero.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_app.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_base.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_biquad_filter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_buffer_pitch_shifter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_car2pol.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_custom.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_delay.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_fraction_delay.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_interleave.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_lpc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_noise.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_ops.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_oscillator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_panning.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_pitch_shifter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_pol2car.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_realfft.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_realifft.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_realpart_ops.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_real_cespstrum.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_sample_collector.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_windowing.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_windowing_repeat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_zerophase_shifter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\miqs_processor_zerophase_windowing.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)miqs_processor" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_all_pole.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_all_zero.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_biquad_filter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_buffer_pitch_shifter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_car2pol.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_delay.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_fraction_delay.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_interleave.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_lpc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_noise.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_ops.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_oscillator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_panning.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_pitch_shifter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_pol2car.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_realfft.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_realifft.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_realpart_ops.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_sample_collector.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_real_cepstrum.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_windowing.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\miqs_processor_zerophase_shifter.cpp" />
+  </ItemGroup>
+</Project>

@@ -1,54 +1,65 @@
 #pragma once
 #include "miqs_basictype.h"
-#include "miqs_cont_circular_adaptor.h"
-#include "miqs_cont_circular_block.h"
 
 namespace miqs
 {
 
-	/* fixed_delay */
-	template <size_t N>
+	///* fixed_delay */
+
+	template <size_t N, typename _Ty=sample_t>
 	struct fixed_delay
 	{
-		const sample_t* data() const noexcept { return m_delay.data(); }
-		sample_t* data() noexcept { return m_delay.data(); }
-		void rotate_to_origin() noexcept { m_delay.rotate_to_origin(); }
-		circular_sample_block<N>& _Get_container() noexcept { return m_delay; }
+
+		typedef _Ty value_type;
+		typedef value_type argument_type;
+		typedef value_type result_type;
+		fixed_delay() { reset(); }
+
+		const value_type* data() const noexcept { return m_delay.data(); }
+		value_type* data() noexcept { return m_delay.data(); }
 
 		constexpr size_t size() const  noexcept { return N; }
 
-		void reset()  noexcept { m_delay.reset(); }
+		void reset()  noexcept { 
+			for (size_t i{}; i < N; ++i)m_delay[i] = static_cast<value_type>(0);
+		}
 
-
-		sample_t peek()  const noexcept
+		result_type peek()  const noexcept
 		{
-			return m_delay.front();
+			return m_delay[N - 1];
 		}
 
 		void push(sample_t s) noexcept
 		{
-			--m_delay;
-			m_delay.back() = s;
+			for (size_t i{ N - 1 }; i > 0; --i)
+				m_delay[i] = m_delay[i - 1];
+			m_delay[0] = s;
 		}
 
-		sample_t operator()(sample_t s)
+		result_type operator()(argument_type s)
 		{
-			sample_t t = peek();
+			result_type t = peek();
 			push(s);
 			return t;
 		}
 
-		template <typename Iter>
-		void operator()(Iter ibegin, Iter iend)
+		template <typename _InPtr, typename _OutPtr>
+		void operator()(_InPtr ibegin, _InPtr iend, _OutPtr dst)
 		{
+			result_type t;
 			while (ibegin != iend)
 			{
-				*ibegin = this->operator()(*ibegin);
-				++ibegin;
+				t = peek();
+				push(*ibegin++);
+				*dst++ = t;
 			}
 		}
-
 	private:
-		circular_sample_block<N> m_delay{};
+		value_type m_delay[N];
 	};
+
+
+
+
+
 }

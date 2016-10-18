@@ -13,7 +13,7 @@ namespace miqs
 		template <size_t m_size>
 		struct blackman_f: public _base_idx_gen_fixed<m_size>
 		{
-			blackman_f() { m_arg = 2 * miqs::Pi / (m_size - 1); }
+			blackman_f() { m_arg = 2 * miqs::pi / (m_size - 1); }
 		
 			sample_t operator()(size_t idx) noexcept
 			{
@@ -38,7 +38,7 @@ namespace miqs
 			sample_t operator()(size_t idx) noexcept
 			{
 				if (idx >= m_size) return 0.0;
-				return (1.0 - m_alpha) - (m_alpha * std::cos(miqs::Pi * 2 * idx++ / (double)(m_size - 1.0)));
+				return (1.0 - m_alpha) - (m_alpha * std::cos(miqs::pi * 2 * idx++ / (double)(m_size-1)));
 			}
 		private:
 			double m_alpha;
@@ -89,7 +89,7 @@ namespace miqs
 		/* blackman */
 		struct blackman: public _base_idx_gen_size
 		{
-			blackman(size_t size):_base_idx_gen_size(size) { m_arg = 2 * miqs::Pi / (m_size - 1); }
+			blackman(size_t size):_base_idx_gen_size(size) { m_arg = 2 * miqs::pi / (m_size - 1); }
 
 			sample_t operator()(size_t idx) noexcept
 			{
@@ -112,7 +112,7 @@ namespace miqs
 			sample_t operator()(size_t idx) noexcept
 			{
 				if (idx >= m_size) return 0.0;
-				return (1.0 - m_alpha) - (m_alpha * std::cos(miqs::Pi * 2 * idx++ / (double)(m_size - 1.0)));
+				return (1.0 - m_alpha) - (m_alpha * std::cos(miqs::pi * 2 * idx++ / (double)(m_size - 1.0)));
 			}
 		private:
 			double m_alpha;

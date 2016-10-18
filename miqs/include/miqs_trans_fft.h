@@ -4,289 +4,287 @@
 namespace miqs
 {
 
-	inline int32_t _int32_reverse(int32_t i)
+
+
+
+	/*fft_radix2_twiddle */
+	template <typename _Ty = sample_t>
+	struct fft_twiddle
 	{
-		i = (i & 0x55555555) << 1 | (int32_t)((uint32_t)i >> 1) & 0x55555555;
-		i = (i & 0x33333333) << 2 | (int32_t)((uint32_t)i >> 2) & 0x33333333;
-		i = (i & 0x0f0f0f0f) << 4 | (int32_t)((uint32_t)i >> 4) & 0x0f0f0f0f;
-		i = (i << 24) | ((i & 0xff00) << 8) |
-			((int32_t)((uint32_t)i >> 8) & 0xff00) | (int32_t)((uint32_t)i >> 24);
-		return i;
-	}
+		typedef _Ty value_type;
 
-	template <typename _T>
-	void tramsform_radix2(std::complex<_T>* complex, size_t length)
-	{
-		typedef _T complex_sample_type;
-		int levels = (int)std::floor(std::log2((double)length));
-
-		if ((size_t)(1 << levels) != length)
-			throw std::invalid_argument("Length is not a power of 2");
-
-		// TODO: keep those tables in memory
-		complex_sample_type *cos_table = new complex_sample_type[length / 2];
-		complex_sample_type *sin_table = new complex_sample_type[length / 2];
-		for (uint32_t i = 0; i < length / 2; i++)
+		void operator()(_Ty *twiddle, int size)
 		{
-			cos_table[i] = static_cast<complex_sample_type>(std::cos(2 * miqs::Pi * i / (complex_sample_type)length));
-			sin_table[i] = static_cast<complex_sample_type>(std::sin(2 * miqs::Pi * i / (complex_sample_type)length));
-		}
-
-
-		// Bit-reversed addressing permutation
-		for (int i = 0; i < (int)length; i++)
-		{
-			int j = ((int)((uint32_t)_int32_reverse(i) >> (32 - levels)));
-
-			if (j > i)
+			/* pre-compute radix-2 twiddle factors in one array of length n */
+			/* re[0], re[1], ..., re[n/2-1], im[0], im[1], ..., im[n/2-1] */
+			int i;
+			int hsize = size / 2;
+			for (i = 0; i < hsize; i++)
 			{
-				auto temp = complex[i];
-				complex[i] = complex[j];
-				complex[j] = temp;
-			}
-		}
-
-
-		// Cooley-Tukey decimation-in-time radix-2 FFT
-		for (size_t size = 2; size <= length; size *= 2)
-		{
-			int halfsize = size / 2;
-			int tablestep = length / size;
-
-			for (int i = 0; i < (int)length; i += size)
-			{
-				for (int j = i, k = 0; j < i + halfsize; j++, k += tablestep)
-				{
-					int h = j + halfsize;
-					complex_sample_type re = complex[h].real();
-					complex_sample_type im = complex[h].imag();
-
-					complex_sample_type tpre = +re * cos_table[k] + im * sin_table[k];
-					complex_sample_type tpim = -re * sin_table[k] + im * cos_table[k];
-
-					complex_sample_type rej = complex[j].real();
-					complex_sample_type imj = complex[j].imag();
-
-					complex[h].real(rej - tpre);
-					complex[h].imag(imj - tpim);
-					complex[j].real(rej + tpre);
-					complex[j].imag(imj + tpim);
-				}
+				twiddle[i] = std::cos(miqs::pi*2.0 / hsize*i);
+				twiddle[hsize + i] = std::sin(miqs::pi * 2.0 / hsize*i);
 			}
 
-			// Prevent overflow in 'size *= 2'
-			if (size == length)
-				break;
-		}
-
-		delete[] cos_table;
-		delete[] sin_table;
-	}
-
-
-
-	template <bool _FORWARD = true>
-	struct transforms_fft
-	{
-		template < typename _DST>
-		void operator()(_DST&dst)
-		{
-			size_t length = dst.size();
-
-			if (length == 0)
-				return;
-			if ((length & (length - 1)) != 0)
-				return;
-
-			_DST::value_type * d = dst.data();
-
-			if (!_FORWARD)
-			{
-				for (size_t i = 0; i < length; i++)
-					complex_swap(d[i]);
-			}
-			//// Is power of 2
-			tramsform_radix2(d, length);
-
-			if (!_FORWARD)
-			{
-				for (size_t i = 0; i < length; i++)
-				{
-					d[i] /= (double)length;
-					complex_swap(d[i]);
-				}
-			}
-		}
-
-		template <typename _SRC, typename _DST>
-		void operator()(_SRC& src, _DST&dst)
-		{
-			if (dst != src)
-				dst = src;
-
-			this->operator()(dst);
 		}
 	};
 
-	typedef transforms_fft<true> transforms_forward_fft;
-	typedef transforms_fft<false> transforms_backward_fft;
+
+	template <typename _Ty>
+	struct realfft_data:_base_value_type<_Ty>
+	{
+		//set
+		void set_fftsize(size_t size)
+		{
+			fftsize = size;
+			twiddle.reset(size);
+			miqs::fft_twiddle<typename realfft_data<_Ty>::value_type>()(twiddle, fftsize);
+		}
+
+		//get
+		size_t get_fftsize() const noexcept
+		{
+			return fftsize;
+		}
+
+		size_t fftsize{ 512 };
+		miqs::array<value_type> twiddle;
+	};
+
+
+
+	template <typename _Ty = sample_t>
+	struct real_fft
+	{
+		typedef _Ty value_type;
+		typedef value_type* pointer;
+
+		static void unshuffle(value_type *data, int size)
+		{
+
+			int i, j, k, l, m;
+			value_type re, im;
+
+			l = size - 1;
+			m = size >> 1;
+			for (i = 0, j = 0; i < l; i++)
+			{
+				if (i < j)
+				{
+					re = data[j + j]; im = data[j + j + 1];
+					data[j + j] = data[i + i]; data[j + j + 1] = data[i + i + 1];
+					data[i + i] = re; data[i + i + 1] = im;
+				}
+				k = m;
+				while (k <= j)
+				{
+					j -= k;
+					k >>= 1;
+				}
+				j += k;
+			}
+		}
+
+
+
+
+		//===============================
+		static void dif_butterfly(value_type *data, int size, value_type *twiddle)
+		{
+
+			int angle, astep, dl;
+			value_type xr, yr, xi, yi, wr, wi, dr, di;
+			value_type *l1, *l2, *end, *ol2;
+
+			astep = 1;
+			end = data + size + size;
+			for (dl = size; dl > 1; dl >>= 1, astep += astep)
+			{
+				l1 = data;
+				l2 = data + dl;
+				for (; l2 < end; l1 = l2, l2 = l2 + dl)
+				{
+					ol2 = l2;
+					for (angle = 0; l1 < ol2; l1 += 2, l2 += 2)
+					{
+						wr = twiddle[angle];
+						wi = -twiddle[size + angle]; /* size here is half the FFT size */
+						xr = *l1 + *l2;
+						xi = *(l1 + 1) + *(l2 + 1);
+						dr = *l1 - *l2;
+						di = *(l1 + 1) - *(l2 + 1);
+						yr = dr * wr - di * wi;
+						yi = dr * wi + di * wr;
+						*(l1) = xr; *(l1 + 1) = xi;
+						*(l2) = yr; *(l2 + 1) = yi;
+						angle += astep;
+					}
+				}
+			}
+		}
+
+		static void realize(value_type *data, int size)
+		{
+
+			value_type xr, yr, xi, yi, wr, wi, dr, di, ang, astep;
+			value_type *l1, *l2;
+
+			l1 = data;
+			l2 = data + size + size - 2;
+			xr = *l1;
+			xi = *(l1 + 1);
+			*l1 = xr + xi;
+			*(l1 + 1) = xr - xi;
+			l1 += 2;
+			astep = miqs::pi / size;
+			for (ang = astep; l1 <= l2; l1 += 2, l2 -= 2, ang += astep)
+			{
+				xr = (*l1 + *l2) / 2;
+				yi = (-(*l1) + (*l2)) / 2;
+				yr = (*(l1 + 1) + *(l2 + 1)) / 2;
+				xi = (*(l1 + 1) - *(l2 + 1)) / 2;
+				wr = std::cos(ang);
+				wi = -std::sin(ang);
+				dr = yr * wr - yi * wi;
+				di = yr * wi + yi * wr;
+				*l1 = xr + dr;
+				*(l1 + 1) = xi + di;
+				*l2 = xr - dr;
+				*(l2 + 1) = -xi + di;
+			}
+		}
+
+
+
+		void operator()(pointer first, pointer last, pointer twiddle)
+		{
+			size_t size = std::distance(first, last);
+			//size_t i{};
+			size >>= 1;
+			dif_butterfly(first, size, twiddle);
+			unshuffle(first, size);
+			realize(first, size);
+
+			//size <<= 1;
+			//for (i = 0; i < size; i++)
+			//	first[i] = first[i] / (size / 2);
+		}
+
+	};
+
+	template <typename _Ty = sample_t>
+	struct real_ifft
+	{
+		typedef _Ty value_type;
+		typedef value_type* pointer;
+
+
+		static void unshuffle(value_type *data, int size)
+		{
+
+			int i, j, k, l, m;
+			value_type re, im;
+
+			l = size - 1;
+			m = size >> 1;
+			for (i = 0, j = 0; i < l; i++)
+			{
+				if (i < j)
+				{
+					re = data[j + j]; im = data[j + j + 1];
+					data[j + j] = data[i + i]; data[j + j + 1] = data[i + i + 1];
+					data[i + i] = re; data[i + i + 1] = im;
+				}
+				k = m;
+				while (k <= j)
+				{
+					j -= k;
+					k >>= 1;
+				}
+				j += k;
+			}
+		}
+
+
+		static void inverse_dit_butterfly(value_type *data, int size, value_type *twiddle)
+		{
+
+			int angle, astep, dl;
+			value_type xr, yr, xi, yi, wr, wi, dr, di;
+			value_type *l1, *l2, *end, *ol2;
+
+			astep = size >> 1;
+			end = data + size + size;
+			for (dl = 2; astep > 0; dl += dl, astep >>= 1)
+			{
+				l1 = data;
+				l2 = data + dl;
+				for (; l2 < end; l1 = l2, l2 = l2 + dl)
+				{
+					ol2 = l2;
+					for (angle = 0; l1 < ol2; l1 += 2, l2 += 2)
+					{
+						wr = twiddle[angle];
+						wi = twiddle[size + angle]; /* size here is half the FFT size */
+						xr = *l1;
+						xi = *(l1 + 1);
+						yr = *l2;
+						yi = *(l2 + 1);
+						dr = yr * wr - yi * wi;
+						di = yr * wi + yi * wr;
+						*(l1) = xr + dr; *(l1 + 1) = xi + di;
+						*(l2) = xr - dr; *(l2 + 1) = xi - di;
+						angle += astep;
+					}
+				}
+			}
+		}
+
+		static void unrealize(value_type *data, int size)
+		{
+
+			value_type xr, yr, xi, yi, wr, wi, dr, di, ang, astep;
+			value_type *l1, *l2;
+
+			l1 = data;
+			l2 = data + size + size - 2;
+			xr = (*l1) / 2;
+			xi = (*(l1 + 1)) / 2;
+			*l1 = xr + xi;
+			*(l1 + 1) = xr - xi;
+			l1 += 2;
+			astep = miqs::pi / size;
+			for (ang = astep; l1 <= l2; l1 += 2, l2 -= 2, ang += astep)
+			{
+				xr = (*l1 + *l2) / 2;
+				yi = -(-(*l1) + (*l2)) / 2;
+				yr = (*(l1 + 1) + *(l2 + 1)) / 2;
+				xi = (*(l1 + 1) - *(l2 + 1)) / 2;
+				wr = std::cos(ang);
+				wi = -std::sin(ang);
+				dr = yr * wr - yi * wi;
+				di = yr * wi + yi * wr;
+				*l2 = xr + dr;
+				*(l1 + 1) = xi + di;
+				*l1 = xr - dr;
+				*(l2 + 1) = -xi + di;
+			}
+		}
+
+
+		void operator()(pointer first, pointer last, pointer twiddle)
+		{
+			size_t size = std::distance(first, last);
+			size_t i{};
+
+			size >>= 1;
+			unrealize(first, size);
+			unshuffle(first, size);
+			inverse_dit_butterfly(first, size, twiddle);
+
+			size <<= 1;
+			for (i = 0; i<size; i++)
+				first[i] = first[i]*2*size;//if( normalized using /size ) then use this
+		}
+	};
+
 }
-//#pragma once
-//#include "miqs_basictype.h"
-//
-//namespace miqs
-//{
-//
-//	inline int32_t _int32_reverse(int32_t i)
-//	{
-//		i = (i & 0x55555555) << 1 | (int32_t)((uint32_t)i >> 1) & 0x55555555;
-//		i = (i & 0x33333333) << 2 | (int32_t)((uint32_t)i >> 2) & 0x33333333;
-//		i = (i & 0x0f0f0f0f) << 4 | (int32_t)((uint32_t)i >> 4) & 0x0f0f0f0f;
-//		i = (i << 24) | ((i & 0xff00) << 8) |
-//			((int32_t)((uint32_t)i >> 8) & 0xff00) | (int32_t)((uint32_t)i >> 24);
-//		return i;
-//	}
-//
-//	template <typename _Ty>
-//	void tramsform_radix2(std::complex<_Ty>* complex, size_t length)
-//	{
-//		typedef _Ty complex_sample_type;
-//		int levels = (int)std::floor(std::log2((double)length));
-//
-//		if ((size_t)(1 << levels) != length)
-//			throw std::invalid_argument("Length is not a power of 2");
-//
-//		// TODO: keep those tables in memory
-//		complex_sample_type *cos_table = new complex_sample_type[length / 2];
-//		complex_sample_type *sin_table = new complex_sample_type[length / 2];
-//		for (uint32_t i = 0; i < length / 2; i++)
-//		{
-//			cos_table[i] = static_cast<complex_sample_type>(std::cos(2 * miqs::PI * i / (complex_sample_type)length));
-//			sin_table[i] = static_cast<complex_sample_type>(std::sin(2 * miqs::PI * i / (complex_sample_type)length));
-//		}
-//
-//
-//		// Bit-reversed addressing permutation
-//		for (int i = 0; i < (int)length; i++)
-//		{
-//			int j = ((int)((uint32_t)_int32_reverse(i) >> (32 - levels)));
-//
-//			if (j > i)
-//			{
-//				auto temp = complex[i];
-//				complex[i] = complex[j];
-//				complex[j] = temp;
-//			}
-//		}
-//
-//
-//		// Cooley-Tukey decimation-in-time radix-2 FFT
-//		for (size_t size = 2; size <= length; size *= 2)
-//		{
-//			int halfsize = size / 2;
-//			int tablestep = length / size;
-//
-//			for (int i = 0; i < (int)length; i += size)
-//			{
-//				for (int j = i, k = 0; j < i + halfsize; j++, k += tablestep)
-//				{
-//					int h = j + halfsize;
-//					complex_sample_type re = complex[h].real();
-//					complex_sample_type im = complex[h].imag();
-//
-//					complex_sample_type tpre = +re * cos_table[k] + im * sin_table[k];
-//					complex_sample_type tpim = -re * sin_table[k] + im * cos_table[k];
-//
-//					complex_sample_type rej = complex[j].real();
-//					complex_sample_type imj = complex[j].imag();
-//
-//					complex[h].real(rej - tpre);
-//					complex[h].imag(imj - tpim);
-//					complex[j].real(rej + tpre);
-//					complex[j].imag(imj + tpim);
-//				}
-//			}
-//
-//			// Prevent overflow in 'size *= 2'
-//			if (size == length)
-//				break;
-//		}
-//
-//		delete[] cos_table;
-//		delete[] sin_table;
-//	}
-//
-//
-//
-//
-//
-//	template <bool _FORWARD = true>
-//	struct transforms_fft
-//	{
-//
-//		template <typename _ContType, typename _Type = _ContType::value_type>
-//		struct container_type_traits
-//		{
-//			typedef _Type value_type;
-//			static value_type* get_data(_ContType& cont){return cont.data();}
-//			static size_t size(_ContType& cont) noexcept {return cont.size() / 2;}
-//		};
-//
-//		template <typename _ContType, typename _Type>
-//		struct container_type_traits <_ContType, std::complex<_Type>>
-//		{
-//			typedef _Type value_type;
-//			static value_type* get_data(_ContType& cont) { return reinterpret_cast<value_type*>(cont.data()); }
-//			static size_t size(_ContType& cont) noexcept { return cont.size(); }
-//		};
-//
-//		
-//
-//
-//		template < typename _DST>
-//		void operator()(_DST&dst)
-//		{
-//			using ContainerTraits = container_type_traits<_DST>;
-//			using value_type = ContainerTraits::value_type;
-//
-//			size_t length = ContainerTraits::size(dst);
-//			value_type * d = ContainerTraits::get_data(dst);
-//
-//			if (length == 0)
-//				return;
-//			if ((length & (length - 1)) != 0)
-//				return;
-//
-//
-//			if (!_FORWARD)
-//			{
-//				for (size_t i = 0; i < length; i++)
-//					std::swap(d[i * 2], d[i * 2 + 1]);
-//			}
-//
-//			//// Is power of 2
-//			tramsform_radix2(reinterpret_cast<std::complex<value_type> *>(d), length);
-//
-//			if (!_FORWARD)
-//			{
-//				for (size_t i = 0; i < length; i++)
-//				{
-//					d[i] /= (double)length;
-//					std::swap(d[i * 2], d[i * 2 + 1]);
-//				}
-//			}
-//		}
-//
-//		template <typename _SRC, typename _DST>
-//		void operator()(_SRC& src, _DST&dst)
-//		{
-//			if (dst != src)
-//				dst = src;
-//
-//			this->operator()(dst);
-//		}
-//	};
-//
-//	typedef transforms_fft<true> transforms_forward_fft;
-//	typedef transforms_fft<false> transforms_backward_fft;
-//}

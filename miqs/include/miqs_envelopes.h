@@ -103,11 +103,11 @@ namespace miqs
 
 				if (i < std::get<0>(m_asr))
 				{
-					return static_cast<result_type>((1.0 + cos(miqs::Pi + (miqs::Pi * static_cast<double>(i) / std::get<0>(m_asr)))) / 2.0);
+					return static_cast<result_type>((1.0 + cos(miqs::pi + (miqs::pi * static_cast<double>(i) / std::get<0>(m_asr)))) / 2.0);
 				}
 				else if (i >= std::get<0>(m_asr) + std::get<1>(m_asr))
 				{
-					return static_cast<result_type>((1.0 + cos(miqs::Pi * static_cast<double>(i - (std::get<0>(m_asr) + std::get<1>(m_asr))) / std::get<0>(m_asr))) / 2.0);
+					return static_cast<result_type>((1.0 + cos(miqs::pi * static_cast<double>(i - (std::get<0>(m_asr) + std::get<1>(m_asr))) / std::get<0>(m_asr))) / 2.0);
 				}
 				return 1.0;
 			}

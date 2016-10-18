@@ -4,61 +4,12 @@
 namespace miqs
 {
 
-	// sine wave operator
-	struct sine_wave
-	{
-		typedef sample_t result_type;
-		typedef double argument_type;
 
-		sample_t operator()(double phase) { return std::sin(phase); }
-	};
-
-	// cosine wave operator
-	struct cosine_wave
-	{
-		typedef sample_t result_type;
-		typedef double argument_type;
-
-		sample_t operator()(double phase) { return std::cos(phase); }
-	};
-
-
-	// linear
-
-	struct linear
-	{
-		typedef sample_t result_type;
-		typedef size_t argument_type;
-
-		linear(std::pair<sample_t, sample_t> minmax, size_t size):
-			m_size{ size }, m_minmax{ minmax } {}
-
-		result_type operator()(argument_type idx)
-		{
-			int dif = static_cast<int>(m_size - 1) - static_cast<int>(idx);
-			if (dif <= 0) return m_minmax.second;
-			return (m_minmax.second - m_minmax.first)*(idx) / (m_size - 1) + m_minmax.first;
-		}
-
-		void set_size(size_t size) { m_size = size; }
-		size_t size() { return m_size; }
-
-	private:
-		std::pair<sample_t, sample_t> m_minmax;
-		size_t m_size;
-	};
-
-
-
-	//
-	// extend operators
-	
 
 
 
 
 	// basic operators
-	
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename _Ty = sample_t>
 	struct plus_const
@@ -250,9 +201,9 @@ namespace miqs
 		_Iter m_iter;
 	};
 
-	
-	
 
+
+#define MIQS_CLIPPING(V, VMAX, VMIN) if(V<VMIN) V = VMIN else if(V>VMAX) V=VMAX
 	template <typename _Ty = sample_t>
 	struct clipping
 	{

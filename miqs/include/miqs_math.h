@@ -7,10 +7,11 @@
 namespace miqs
 {
 
-	static const double Eps = 0.0000000000000001;
-	static const double Pi = 3.14159265358979323846;
-	static const double E = 2.71828182845904523536;
-	static const double Sqrt_2 = 1.4142135623730950488016;
+	static const double eps = 0.0000000000000001;
+	static const double pi = 3.14159265358979323846;
+	static const double two_pi = pi * 2;
+	static const double e = 2.71828182845904523536;
+	static const double sqrt_2 = 1.4142135623730950488016;
 
 
 	//
@@ -91,6 +92,32 @@ namespace miqs
 
 
 
+	//==================================================================================
+
+
+	template <typename _Ty = sample_t>
+	struct exponential_amplitude_exp20
+	{
+		typedef _Ty argument_type;
+		typedef _Ty result_type;
+
+		result_type operator() (const argument_type& v)
+		{
+			return std::exp(v / 20.0);
+		}
+	};
+
+	template <typename _Ty = sample_t>
+	struct exponential_amplitude_exp10
+	{
+		typedef _Ty argument_type;
+		typedef _Ty result_type;
+
+		result_type operator() (const argument_type& v)
+		{
+			return std::exp(v / 10.0);
+		}
+	};
 
 	template <typename _Ty = sample_t>
 	struct logarithmic_amplitude_20log
@@ -100,7 +127,7 @@ namespace miqs
 
 		result_type operator() (const argument_type& v)
 		{
-			return 20 * std::log10(v) + std::numeric_limits<result_type>::epsilon();
+			return 20 * std::log(v) + std::numeric_limits<result_type>::epsilon();
 		}
 	};
 
@@ -112,7 +139,7 @@ namespace miqs
 
 		result_type operator() (const argument_type& v)
 		{
-			return 10 * std::log10(v) + std::numeric_limits<result_type>::epsilon();
+			return 10 * std::log(v) + std::numeric_limits<result_type>::epsilon();
 		}
 	};
 
@@ -179,17 +206,27 @@ namespace miqs
 	template<typename T>
 	inline int32_t sign(T & a) { return ((a >= 0) ? 1 : (-1)); }
 
+	// amp <->loudness(db)
+	inline double amp_to_db(double amp) { return 20 * std::log10(amp); }
+	inline double db_to_amp(double db) { return pow(10, db / 20); }
+
+
 	// degree <-> radian
-	inline double degree_to_radian(double deg) { return deg * Pi / 180.0; }
-	inline double radian_to_degree(double rad) { return rad * 180.0 / Pi; }
+	inline double degree_to_radian(double deg) { return deg * pi / 180.0; }
+	inline double radian_to_degree(double rad) { return rad * 180.0 / pi; }
 	
 	// midi <-> freq
 	inline double midi_to_freq(double midi) { return std::pow(2, (midi - 69) / 12) * 440.0; }
 	inline double freq_to_midi(double freq) { return 12 * std::log2(freq / 440.0) + 69; }
 
+	// semitone <-> ratio
+	inline double semitone_to_ratio(double semi) { return std::pow(2, (semi) / 12); }
+	inline double ratio_to_semitone(double ratio) { return std::log2(ratio) * 12; }
+
+	
 	// milliseconds <-> samples
-	inline uint32_t ms_to_samples(uint32_t ms, uint32_t samplerate) { return static_cast<uint32_t>((ms / 1000.0) * samplerate); }
-	inline uint32_t samples_to_ms(uint32_t samples, uint32_t samplerate) { return static_cast<uint32_t>((static_cast<double>(samples)/samplerate * 1000)); }
+	inline uint32_t ms_to_samples(double ms, uint32_t samplerate) { return static_cast<uint32_t>((ms / 1000.0) * samplerate); }
+	inline double samples_to_ms(uint32_t samples, uint32_t samplerate) { return ((static_cast<double>(samples)/samplerate * 1000)); }
 
 	// hertz <-> mel
 	inline double hertzToMel(double f){return 1127.0 * std::log(1.0 + f / 700.0);}
@@ -203,7 +240,7 @@ namespace miqs
 
 void miqs::lpc_to_reflect(double* a, double* k, size_t order)
 {
-	double *b, *b1, e;
+	double *b, *b1, ee;
 	size_t   i, j;
 	b = new double[order + 1];
 	b1 = new double[order + 1];
@@ -216,11 +253,11 @@ void miqs::lpc_to_reflect(double* a, double* k, size_t order)
 	for (i = order; i > 0; i--)
 	{
 		k[i] = b[i];
-		e = 1 - (k[i] * k[i]);
+		ee = 1 - (k[i] * k[i]);
 		for (j = 1; j < i; j++)
 			b1[j] = b[j];
 		for (j = 1; j < i; j++)
-			b[j] = (b1[j] - k[i] * b1[i - j]) / e;
+			b[j] = (b1[j] - k[i] * b1[i - j]) / ee;
 	}
 
 	delete[] b;

@@ -8,18 +8,20 @@ namespace miqs
 {
 
 
-	//static union
-	//{
-	//	int s = 1;
-	//	char c[sizeof(int)];
-	//} __big_endian;
+	static union
+	{
+		int s = 1;
+		char c[sizeof(int)];
+	} __big_endian;
 
-	//// check : is big endian system?
-	//struct is_big_endian_system
-	//{
-	//	static const bool value;
-	//};
-	//const bool is_big_endian_system::value = (__big_endian.c[0] == 1);
+	// check : is big endian system?
+	template <typename None = miqs::none>
+	struct is_big_endian_system
+	{
+		static const bool value;
+	};
+	template <typename None>
+	const bool is_big_endian_system<None>::value = (__big_endian.c[0] != 1);
 
 
 	// swap bytes

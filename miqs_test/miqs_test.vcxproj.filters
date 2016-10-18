@@ -4,113 +4,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="miqs_test_rt_basicops.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_comb_effects.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_delay_effect_chorus.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_delay_effect_vibrato.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_generator.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_modulations.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_natural_comb_filter.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_rt_stereopanning.cpp">
-      <Filter>realtime</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_applywindow.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_basicfilter.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_biquadfilter.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_cepstrum.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_cepstrum_cross.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_cepstrum_fmove.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_cepstrum_fomove.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_combfilter.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_convert_samplerate.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_delay.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_envelope1.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_fast_convolution.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_fft.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_fft_2real_signal.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_linear_line.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_lpc_cross_incomplete.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_pitchestimation1.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_pitchestimation2.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_simple_granular.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_sola.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_spectral_interpolation.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_spectrogram.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
-    <ClCompile Include="miqs_test_func_time_shuffling.cpp">
-      <Filter>test_functions</Filter>
-    </ClCompile>
     <ClCompile Include="miqs_test_func_implement_test.cpp" />
     <ClCompile Include="miqs_test_rt_implement_test.cpp" />
+    <ClCompile Include="miqs_test_funcs.cpp" />
+    <ClCompile Include="miqs_test_func_past.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="miqs_test.h" />
     <ClInclude Include="miqs_temp_impl.h" />
     <ClInclude Include="miqs_test_newfea_normalize.h">
       <Filter>functions</Filter>
-    </ClInclude>
-    <ClInclude Include="miqs_test_func_allpassfilter.cpp">
-      <Filter>test_functions</Filter>
-    </ClInclude>
-    <ClInclude Include="miqs_test_func_lpc_analysis.cpp">
-      <Filter>test_functions</Filter>
     </ClInclude>
     <ClInclude Include="miqs_test_newfea_bind_comp_func.h">
       <Filter>functions</Filter>
@@ -119,12 +22,6 @@
   <ItemGroup>
     <Filter Include="functions">
       <UniqueIdentifier>{836bbed9-20c4-435e-bc3e-29c35a6fbdce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="realtime">
-      <UniqueIdentifier>{cddc5874-a8b1-4ef0-a75b-4421b16a85b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="test_functions">
-      <UniqueIdentifier>{0b4677c3-740c-4d5e-a5d4-3d0f0ad7fa60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

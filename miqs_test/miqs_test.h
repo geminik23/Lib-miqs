@@ -1,11 +1,14 @@
 #pragma once
-#include <miqs.h>
-
+#include <miqs>
+#include <miqs_processor>
 #include <iomanip>
 #include <MiqsSound.h>
 #define q_interface struct
 
 
+//delays
+//wavetable
+//fft
 
 using namespace miqs;
 namespace miqs_test
@@ -53,30 +56,47 @@ public:\
 	struct funcs
 	{
 		static void implement_test();
-		static void linear_line();
-		static void sola();
-		static void lpc_analysis();
-		static void lpc_cross();
-		static void cepstrum();
-		static void simple_granular();
-		static void allpassfilter();
-		static void applywindow();
-		static void basicfilter();
-		static void biquadfilter();
-		static void combfilter();
-		static void convert_samplerate();
+		static void past();
+
+		static void grain_1();
+
+		//
+		static void ptr_normalize();
+		static void ptr_simple_panning();
+		static void ptr_simple_panning_timeevents();
+		static void ptr_extract_adjust_env();
+		static void ptr_gen_wave();
+		static void ptr_interpolator();
+
+
+		static void for_pitchshift_1();
 		static void delay();
-		static void fft();
-		static void pitchestimation1();
+		static void lpc_cross();////
+
+		//static void convert_samplerate();
+		//static void fft();
+		//static void biquadfilter();
+
+		//static void linear_line();
+		//static void sola();
+		//static void lpc_analysis();
+		//static void cepstrum();
+		//static void simple_granular();
+		//static void allpassfilter();
+		//static void applywindow();
+		//static void basicfilter();
+		//static void combfilter();
+
+		//static void pitchestimation1();
 		//static void pitchestimation2();
-		static void spectrogram();
-		static void fft_2real_signal();
-		static void fast_convolution();
-		static void envelope1();
-		static void cepstrum_cross();
-		static void cepstrum_formant_move();
-		static void cepstrum_formant_move_directly();
-		static void spectral_interpolation();
+		//static void spectrogram();
+		//static void fft_2real_signal();
+		//static void fast_convolution();
+		//static void envelope1();
+		//static void cepstrum_cross();
+		//static void cepstrum_formant_move();
+		//static void cepstrum_formant_move_directly();
+		//static void spectral_interpolation();
 	};
 
 
@@ -96,39 +116,39 @@ public:\
 
 
 
-	// generate sinewave basic.
-	PROCESSOR(generator, miqs::phasor phasor;);
-	// basic operators
-	PROCESSOR(basic_ops, miqs::phasor phasor;);
+	//// generate sinewave basic.
+	//PROCESSOR(generator, miqs::phasor phasor;);
+	//// basic operators
+	//PROCESSOR(basic_ops, miqs::phasor phasor;);
 
-	/* delay and comb based effects */
-	// vibrato
-	PROCESSOR(delay_effect_vibrato,
-			  double width;
-	miqs::phasor phase;
-	miqs::phasor lfphase;
-	miqs::delay buffer;);
+	///* delay and comb based effects */
+	//// vibrato
+	//PROCESSOR(delay_effect_vibrato,
+	//		  double width;
+	//miqs::phasor phase;
+	//miqs::phasor lfphase;
+	//miqs::delay buffer;);
 
-	// chorus
-	PROCESSOR(delay_effect_chorus,
-			  double width;
-	miqs::phasor phase;
-	miqs::phasor lfphase;
-	miqs::delay buffer;);
+	//// chorus
+	//PROCESSOR(delay_effect_chorus,
+	//		  double width;
+	//miqs::phasor phase;
+	//miqs::phasor lfphase;
+	//miqs::delay buffer;);
 
-	// stereo panning
-	PROCESSOR(stereopanning, miqs::phasor phase; double angle;);
+	//// stereo panning
+	//PROCESSOR(stereopanning, miqs::phasor phase; double angle;);
 
-	// flanger, chorus, slapback, echo   // p97
-	PROCESSOR(comb_effects,
-			  miqs::delay delay;
-	miqs::iir_comb_filter<miqs::delay> iircomb;);
+	//// flanger, chorus, slapback, echo   // p97
+	//PROCESSOR(comb_effects,
+	//		  miqs::delay delay;
+	//miqs::iir_comb_filter<miqs::delay> iircomb;);
 
-	// natural sounding comb filter
-	PROCESSOR(natural_comb_filter, );
+	//// natural sounding comb filter
+	//PROCESSOR(natural_comb_filter, );
 
-	// modulations
-	PROCESSOR(modulations, miqs::phasor phase1; miqs::phasor phase2;);
+	//// modulations
+	//PROCESSOR(modulations, miqs::phasor phase1; miqs::phasor phase2;);
 
 
 }

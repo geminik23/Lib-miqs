@@ -89,10 +89,10 @@ namespace miqs
 			attach(nullptr, 0);
 		}
 
-		array_accessor(array_accessor const& other):
-			m_array(other.m_array), m_size(other.size) {}
+		array_accessor(self_type const& other):
+			m_array((pointer)(other.m_array)), m_size(other.m_size) {}
 
-		array_accessor(array_accessor && other):
+		array_accessor(self_type && other):
 			m_array(other.m_array), m_size(other.size)
 		{
 			other.attach(nullptr, 0);
@@ -155,6 +155,11 @@ namespace miqs
 		size_type size()
 		{
 			return m_size;
+		}
+
+		void resize(size_t size)
+		{
+			m_size = size;
 		}
 
 		const value_type& operator [] (unsigned i) const

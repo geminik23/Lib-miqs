@@ -7,9 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs", "miqs\miqs.vcxitems"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs_test", "miqs_test\miqs_test.vcxproj", "{9A5683BA-E1FF-4204-AC69-868DCFFF2239}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs_processor", "miqs_processor\miqs_processor.vcxitems", "{45D41ACC-2C3C-43D2-BC10-02AA73FFC7C7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs_processor_lib", "miqs_processor_lib\miqs_processor_lib.vcxproj", "{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miqs_osc", "miqs_osc\miqs_osc.vcxitems", "{C2C09853-2E4B-4D4B-9B5D-C54E30C9F9E9}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		miqs\miqs.vcxitems*{9a5683ba-e1ff-4204-ac69-868dcfff2239}*SharedItemsImports = 4
+		miqs_processor\miqs_processor.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
+		miqs_processor\miqs_processor.vcxitems*{48a084c5-08b3-4fc2-b9e6-8bd429b3b43e}*SharedItemsImports = 4
+		..\..\__VisualStudio__\Test-miqslibrary\MiqsLib\MiqsLib.vcxitems*{9a5683ba-e1ff-4204-ac69-868dcfff2239}*SharedItemsImports = 4
+		miqs_osc\miqs_osc.vcxitems*{c2c09853-2e4b-4d4b-9b5d-c54e30c9f9e9}*SharedItemsImports = 9
 		miqs\miqs.vcxitems*{ed6b3ccd-10d6-48fc-8c75-7d7be7fe2948}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +36,14 @@ Global
 		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x64.Build.0 = Release|x64
 		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x86.ActiveCfg = Release|Win32
 		{9A5683BA-E1FF-4204-AC69-868DCFFF2239}.Release|x86.Build.0 = Release|Win32
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Debug|x64.ActiveCfg = Debug|x64
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Debug|x64.Build.0 = Debug|x64
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Debug|x86.ActiveCfg = Debug|Win32
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Debug|x86.Build.0 = Debug|Win32
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Release|x64.ActiveCfg = Release|x64
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Release|x64.Build.0 = Release|x64
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Release|x86.ActiveCfg = Release|Win32
+		{48A084C5-08B3-4FC2-B9E6-8BD429B3B43E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
