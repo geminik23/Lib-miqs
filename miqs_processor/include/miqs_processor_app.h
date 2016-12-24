@@ -82,7 +82,6 @@ namespace miqs
 				miqs::phase_info<> osc_phase;
 
 				miqs::phase_pi_modular<miqs::phase_info<>> op(osc_phase);
-				auto gen = miqs::make_generator<miqs::osc::saw_wave>(op);
 				miqs::phase_helper<miqs::phase_info<>> phelper(osc_phase);
 				phelper.set_info(1, WavetableSize);
 

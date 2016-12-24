@@ -13,6 +13,7 @@ namespace miqs
 	namespace process
 	{
 	
+
 		/* 
 			1. arrays (how many?) default number
 			2. from base_processor -> ready (keep or reuse? call with parameter)
@@ -114,8 +115,12 @@ namespace miqs
 
 
 
+
+
 void miqs_test::funcs::implement_test()
 {
+
+
 	std::string infilename{ "Toms_diner.wav" };
 	std::string outfilename{ "testing.wav" };
 
